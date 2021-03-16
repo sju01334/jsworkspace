@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+body{margin:0px;}
+#wrapper{
+    width: 700px;
+    height: 550px;
+    background-color: black;
+    overflow: hidden;
+}
+#menu{
+    width:100px; 
+    height:100%;
+    background-color: pink;
+    float:left;
+}
+#content{
+    width: 600px;
+    height:100%;
+    background-color: powderblue;
+    float: left;
+    position: relative;
+    overflow: hidden;
+}
+#menu img{
+    width: 60px;
+    height:90px;
+    border: 3px solid lightseagreen;
+}
+</style>
+<script>
+var img_name=5;
+function stamp(){
+    //이미지 생성
+    var img=document.createElement("img");
+    img.src="../images/card/"+img_name+".PNG";
+    img.style.width=70+"px";
+
+    //x,y축 좌표를 마우스 좌표와 일치시킨다
+    var x=event.clientX;
+    var y=event.clientY;
+    img.style.position="absolute";
+    img.style.left=x-30+"px";
+    img.style.top=y-45+"px";
+    
+    //이미지 부착
+    var cont=document.querySelector("#content");
+    cont.appendChild(img);
+}
+</script>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="content" onmousedown="stamp()">
+        </div>
+        <div id="menu">
+            <img src="../images/card/1.PNG" onclick="img_name=1">
+            <img src="../images/card/2.PNG" onclick="img_name=2">
+            <img src="../images/card/3.PNG" onclick="img_name=3">
+            <img src="../images/card/4.PNG" onclick="img_name=4">
+            <img src="../images/card/5.PNG" onclick="img_name=5">
+        </div>
+
+    </div>
+</body>
+</html>

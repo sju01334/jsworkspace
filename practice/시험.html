@@ -1,0 +1,36 @@
+<!-- <script>
+var n=prompt("원하는 단을 입력하세요");
+
+for(var a=n; a>=2; a--){
+    document.write(a+"단----------<br>")
+    for(var i=1;i<=9; i++){
+        document.write(a+"*"+i+"="+a*i+"<br>");
+    }
+}
+</script> -->
+
+<script>
+window.addEventListener("load",function(){
+    createTable();
+});
+
+function createTable(){
+    var table=document.createElement("table")
+    table.border=1+"px";
+    table.style.width=500+"px";
+
+    for(var i=3; i>=1; i--){
+        var tr=document.createElement("tr");
+        table.appendChild(tr)
+        for(var a=1; a<=2; a++){
+            var td=document.createElement("td");
+            td.innerText=i+"0"+a+"호";
+            td.style.textAlign="center";
+            tr.appendChild(td);
+        }
+    }
+    
+    document.body.appendChild(table)
+
+}
+</script>

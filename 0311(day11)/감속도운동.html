@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+#manbo{
+    width: 80px;
+    /* position: absolute;
+    left:0px;
+    top:200px; */
+}
+#ball{
+    width: 30px;
+    position: absolute;
+    left: 500px;
+    top: 240px;
+}
+</style>
+<script>
+//목표지점에 한걸음에 도착하면, 순간이동이 되므로 자연스럽지 못하다
+//더 부드러운 효과를 내려면, 감속도 처리해야하고, 이 감속도 처리를
+//많은 분야의 애니메이션에서 이용하고 있다
+var targetX=500;
+var a=0.1;
+var manbo;
+
+//문서가 로드되면, 잠만보의 스타일 포지션 값을 자바스크립트에서 지정
+window.addEventListener("load",function(){
+    manbo=document.getElementById("manbo")
+    manbo.style.position="absolute";
+    manbo.style.left=0+"px";
+    manbo.style.top=200+"px";
+});
+function move(){
+    console.log("현재 잠만보의 x위치는",manbo.style.left);
+    // manbo.style.left=targetX+"px" //순간이동
+    //공식: 물체위치 = 현재위치+a*(목표지점-현재내위치)
+
+    manbo.style.left=parseInt(manbo.style.left)+a*(targetX-parseInt(manbo.style.left))+"px";
+    setTimeout("move()",50);
+}
+</script>
+</head>
+<body>
+    <button onclick="move()">움직이기</button>
+    <img src="../images/pocketball.png" id="ball">
+    <img src="../images/manbo.png" id="manbo">
+                                                                        
+</body>
+</html>

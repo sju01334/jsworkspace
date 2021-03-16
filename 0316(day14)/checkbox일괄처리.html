@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+<script>
+function checkAll(){
+    // document.getElementById("kb").checked=document.getElementById("king").checked;
+    
+    // 문서내의 ch 라는 그룹 즉 ch로 부여된 이름 배열을 이용하여 일괄처리
+    var ch=document.getElementsByName("ch");
+    for(var i=0;i<ch.length;i++){
+        ch[i].checked=document.getElementById("king").checked;
+    }
+}
+</script>
+</head>
+<body>
+    <table border="1px" width="600px">
+        <tr>
+            <td width="30px">
+                <input type="checkbox" id="king" onclick="checkAll()">
+            </td>
+            <td>이메일 제목</td>
+        </tr>
+        <tr>
+            <!-- 
+                id와 name의 공통점 및 차이점
+                공통점) 둘다 문서내의 요소들간 식별을 위해 사용
+                차이점) id는 중복을 불허하지만, name 중복을 허용해줌
+                특히 html 에서의 이름은 자바스크립트에서의 배열로 존재할 수 있다
+                왜?? name은 중복을 허용하기 때문에, js 내에서 배열로 접근이 간으
+             -->
+            <td width="30px">
+                <input type="checkbox" id="kb" name="ch">
+            </td>
+            <td>국미은행 대출 안내</td>
+        </tr>
+        <tr>
+            <td width="30px">
+                <input type="checkbox" name="ch">
+            </td>
+            <td>국미은행 대출 안내</td>
+        </tr>
+        <tr>
+            <td width="30px">
+                <input type="checkbox" name="ch">
+            </td>
+            <td>국미은행 대출 안내</td>
+        </tr>
+        <tr>
+            <td width="30px">
+                <input type="checkbox" name="ch">
+            </td>
+            <td>국미은행 대출 안내</td>
+        </tr>
+        <tr>
+            <td width="30px">
+                <input type="checkbox" name="ch">
+            </td>
+            <td>국미은행 대출 안내</td>
+        </tr>
+        <tr>
+            <td width="30px">
+                <input type="checkbox" name="ch">
+            </td>
+            <td>국미은행 대출 안내</td>
+        </tr>
+        <tr>
+            <td width="30px">
+                <input type="checkbox" name="ch">
+            </td>
+            <td>국미은행 대출 안내</td>
+        </tr>
+        <tr>
+            <td width="30px">
+                <input type="checkbox" name="ch">
+            </td>
+            <td>국미은행 대출 안내</td>
+        </tr>
+        <tr>
+            <td width="30px">
+                <input type="checkbox" name="ch">
+            </td>
+            <td>국미은행 대출 안내</td>
+        </tr>
+        <tr>
+            <td width="30px">
+                <input type="checkbox" name="ch">
+            </td>
+            <td>국미은행 대출 안내</td>
+        </tr>
+    </table>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<script>
+/* 과일명 10개를 메모리에 올려보자*/
+var a ="사과";
+var b ="오렌지";
+var c="용과";
+var d ="파인애플";
+var e ="한라봉";
+var f ="두리안";
+var g ="레몬";
+var h ="낑깡";
+var i ="바나나";
+var j ="아보카도";
+// document.write 로 과일 출력하시오
+document.write(a+"<br>")
+document.write(b+"<br>")
+document.write(c+"<br>")
+document.write(d+"<br>")
+
+/* 데이터에 대해 일일이 변수명을 할당하는 방식은, 대량의 데이털르 처리할때는
+비효율적임
+현실에서 줄을 세워서 업무를 처리하면 각 주체의 이름을 일일이 알필요가 없듯이,
+전산에서도 메모리에 데이터를 올릴때 데이터의 줄을 세워 올리는 기법이 지원된다*/
+
+// 동물이름 10개를 메모리에 올려보자
+
+var ani=new Array();
+ani[0]="쥐";
+ani[1]="소";
+ani[2]="호랑이";
+ani[3]="토끼";
+ani[4]="용";
+ani[5]="뱀";
+ani[6]="말";
+ani[7]="양";
+ani[8]="원숭이";
+ani[9]="닭";
+ani[10]="개";
+ani[11]="돼지";
+ani[12]="고양이";
+
+for(var i=1; i<=11; i++){
+    document.write(ani[i]+"<br>")
+}
+
+</script>

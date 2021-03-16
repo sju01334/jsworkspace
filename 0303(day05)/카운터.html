@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+    input{
+        width: 600px;
+        height: 400px;
+        background-color: dodgerblue;
+        color: white;
+        font-size: 200px;
+        text-align: center;
+    }
+</style>
+<script>
+    var n=0;
+    function setCount(){
+        //문서내의 input 요소의 value 값을 1씩 증가시켜 보자
+        n+=1;
+        document.querySelector("#txt").value=n;
+    }
+    function auto(){
+        setInterval("setCount()",1000);
+    }
+</script>
+</head>
+<body>
+    <button onClick="setCount()">카운터 증가수동</button>
+    <button onClick="auto();this.disabled=true">카운터 증가자동</button>
+    <br>
+    <input id="txt" type="text" value="0">
+</body>
+</html>

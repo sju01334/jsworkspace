@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+    #wrapper{
+        width: 600px;
+        height: 600px;
+        background-color: yellow;
+        margin: auto;
+    }
+    #pic{
+        width: 100%;
+        height: 550px;
+        object-fit: cover;
+        background-color: #cccccc;
+    }
+    #control{
+        position: relative;
+        width: 100%;
+        height: 50px;
+        background-color: yellowgreen;
+    }
+    #pic img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    #control img{
+        width: 40px;
+    }
+    .bt-right{
+        position: absolute;
+        right: 0px;
+    }
+    .bt-left{
+        position: absolute;
+        left: 0px;
+    }
+</style>
+<script>
+    var n=1;
+    function next(){
+        //pic의 src의 값을 변경
+        n=(n%10)+1;
+        document.querySelector("#pic img").src="../images/travel2/"+n+".jpg";
+    }
+    function prev(){
+        //pic의 src의 값을 변경
+        if(n<=1){
+        n=11
+        }
+        n-=1;
+        document.querySelector("#pic img").src="../images/travel2/"+n+".jpg";
+    }
+</script>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="pic">
+            <img src="../images/travel2/1.jpg" alt="">
+        </div>
+        <div id="control">
+            <img id="bt1" class="bt-left" onClick="prev()" src="../images/button/left_btn.webp" alt="">
+            <img id="bt2" class="bt-right" onClick="next()" src="../images/button/right_btn.webp" alt="">
+        </div>
+    </div>
+</body>
+</html>

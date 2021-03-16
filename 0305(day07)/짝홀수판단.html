@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<script>
+    
+    
+</script>
+</head>
+<body>
+    <h1>판단결과 나올 곳</h1>
+</body>
+</html>
+<script>
+    /* 함수를 사용하지 않고 그냥 무조건 자바스크립트 코드를 수행할 경우
+        스크립트 삽입 위치는 디자인이 다 읽혀진 완료 시점인 닫는 body
+        직전에 넣는게 대세(bootstrap,편집기,구글맵,jQuery 오픈소스 등)*/
+    var mag;
+    // alert("당신이 입력한 값은"+result);
+    var result=prompt("원하는 수를 입력하세요");
+    var ans=(isNaN(result))? "숫자가 아니잖아":"숫자에요";
+                //숫자면  true 아니면 false
+    alert(ans)
+    msg=(result%2==0)? "짝수":"홀수";
+
+    document.querySelector("h1").innerText=msg+"입니다";
+
+
+
+    // var msg=prompt("원하는 수를 입력하세요");
+    // if(msg%2==0){
+    //     document.querySelector("h1").innerText="짝수입니다"
+    // }else{
+    //     document.querySelector("h1").innerText="홀수입니다"
+    // }
+</script>

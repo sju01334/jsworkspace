@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+
+#wrapper{
+    position: relative;
+    width: 100%;
+    height: 500px;
+    background-color: blue;
+    background-image: url(../images/bg.PNG);
+    background-size: 100% 500px;
+    background-repeat: repeat-x;
+    background-position: 0px 0px;
+}
+#among{
+    position: absolute;
+    width: 130px;
+    left: 150px;
+    top: 150px;
+}
+</style>
+<script>
+    var x=0;
+    function self(){
+        x-=1
+        document.querySelector("#wrapper").style.backgroundPosition=x+"px 0px"
+    }
+    function auto(){
+        setInterval("self()",10)
+    }
+    var a=150;
+    var b=150;
+    function left(){
+        a-=5;
+        document.querySelector("#among").style.left=a+"px"
+    }
+</script>
+</head>
+<body>
+    <div id="wrapper">
+        <img id="among" src="../images/among2.png" alt="">
+    </div>
+    <button onclick="self()">self</button>
+    <button onclick="auto()">auto</button>
+    <button onclick="left()">좌</button>
+
+</body>
+</html>

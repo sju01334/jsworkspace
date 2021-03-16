@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1></h1>
+</body>
+</html>
+<script>
+    var mon;
+
+    var result=prompt("연도를 입력하세요")
+    mon=(result%4==0)? "윤년입니다":"윤년이 아닙니다"
+
+    document.querySelector("h1").innerText=mon
+</script>

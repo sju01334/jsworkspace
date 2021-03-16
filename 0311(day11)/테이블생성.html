@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<script>
+//  document.write()는 문자열에 태그를 넣어 출력하는 방식이었음
+// 하지만 이방식만 있는게 아니라, createElement()를 이용할 수 있다.
+window.addEventListener("load",function(){
+    createTable();
+});
+function createTable(){
+    var f=parseInt(prompt("원하는 층수를 입력하세요"));
+    var g=parseInt(prompt("원하는 호수를 입력하세요"));
+    var h=parseInt(prompt("원하는 콘크리트 두께를 입력하세요"));
+    
+    var table=document.createElement("table");//<table></table>과 같다
+    table.style.width=800+"px";
+    table.border=h+"px solid red"; 
+    
+    
+    for (var j=f;j>=1;j--){
+        var tr=document.createElement("tr");//<tr></tr>과 같다
+        table.appendChild(tr);
+        for(var i=1;i<=g;i++){
+            var td=document.createElement("td");
+            td.innerText=j+"0"+i+"호"
+            tr.appendChild(td);
+        }
+    }
+    
+    document.body.appendChild(table);//위 요소들을 전부 구성후 table 
+}
+</script>
+</head>
+<body>
+    
+</body>
+</html>

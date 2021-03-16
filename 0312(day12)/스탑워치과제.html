@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+#wrapper{
+    margin: auto;
+    width: 600px;
+    position: relative;
+    background-color:lightseagreen;
+}
+#tUnit{
+    text-align: center;
+}
+#tUnit input{
+    font-size:120px;
+    width: 150px;
+    text-align: center;
+    margin-top: 10px;
+    background-color: black;
+    color: white;
+}
+#tUnit span{
+    font-weight: bold;
+    font-size: 40px;
+    padding-right: 50px;
+    padding-left: 50px;
+    font-family:fantasy;
+}
+.button{
+    width: 100px;
+    cursor: pointer;
+}
+#bUnit{
+    text-align: center;;
+
+}
+</style>
+<script>
+    //프로그램 가동과 동시에, 초기화 시킬 작업이 있다면 init()에서 해보자
+var t_min; //숫자 자체가 아닌 input 박스다
+var t_sec;
+var t_hour;
+var sec=0;
+var min=0;
+var hour=0;
+var st;
+
+function init(){
+    t_min=document.getElementById("t_min");
+    t_sec=document.getElementById("t_sec");
+    t_hour=document.getElementById("t_hour");
+
+    t_min.value="0"+0;
+    t_sec.value="0"+0;
+    t_hour.value="0"+0;
+}
+
+function getZeroString(n){
+    var result;
+    if(n<10){
+        result="0"+n;
+    }else{
+        result=n;
+    }
+    return result;
+}
+
+function countUp(){
+    sec++;
+    t_sec.value=getZeroString(sec);
+
+    if(sec>=60){
+        sec=0;
+        t_sec.value=0;
+        min++
+        t_min.value=getZeroString(min);
+    }
+    if(min>=60){
+        min=0;
+        t_min.value=0;
+        hour++;
+        t_hour.value=getZeroString(hour);
+    }
+}
+
+function start(){
+    st=setInterval("countUp()",1000);
+}
+function stop(){
+    clearInterval(st);
+}
+function reset(){
+    clearInterval(st);
+    init();
+    sec=0;
+    min=0;
+    hour=0;
+}
+window.addEventListener("load", function(){
+    init();
+});
+</script>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="tUnit">
+            <span>hour</span>
+            <span>min</span>
+            <span>sec</span>
+            <input type="text" id="t_hour">
+            <input type="text" id="t_min">   
+            <input type="text" id="t_sec">
+        </div>
+        <div id="bUnit">
+            <img class="button" src="../images/button/play.png" alt="" onclick="start();">
+            <img class="button" src="../images/button/pause.png" alt="" onclick="stop();">
+            <img class="button" src="../images/button/stop.png" alt="" onclick="reset();">
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+<script>
+    //24번
+    var a=prompt("원하는 수를 입력하세요");
+    for(var i=a;i>0;i--){
+        if(i>1){ //1보다 큰 경우엔 쉼표 붙여서 출력
+        document.write(i+",");
+         }else{//아니면 그냥 숫자만 출력
+        document.write(i); 
+        }
+    }
+
+    document.write("<br>");
+    document.write("<br>");
+    //25번
+    var b=prompt("연도를 입력하세요");
+    if(b%4==0){
+        document.write("\"29일까지\"");
+    }else{
+        document.write("\"28일까지\"");
+    }
+
+    document.write("<br>");
+    document.write("<br>");
+    //26번
+    var c=prompt("구구단 몇단을 입력하시겠습니까?");
+    for(var j=1;j<=9; j++){
+        document.write(c+"*"+j+"="+c*j);
+        document.write("<br>");
+    }
+
+    document.write("<br>");
+    //27번
+   //반복문은 처음과, 끝값을 지정해야 한다!!
+    var n = prompt("원하시는 수를 입력하세요"); //가운데 수 역할
+    var first=n-1; //시작값 
+    //parseInt(n)  문자열인 "n"을 정수로 변환!! 따라서 쌍따옴표가 제거됨
+    //prompt()에 입력된 모든~~데이터는 문자열 취급하므로, 반드시 
+    //정수화 시켜주는 처리를 하면 좋다!!! parseInt()
+    var last=parseInt(n)+1; //끝값 
+
+    for(var i=first;i<=last;i++){
+        document.write(i+"&nbsp;&nbsp");
+    }
+    
+    document.write("<br>");
+    //28번
+    var e=prompt("★ 몇개를 입력할래요?");
+    for(var i=1; i<=e;i++){
+        document.write("★");
+    }
+    
+
+</script>

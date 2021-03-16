@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+#banner-frame{
+    width: 415px;
+    height: 110px;
+    background-color: lavender;
+    margin: auto;
+    box-sizing: border-box;
+    padding-top: 5px;
+    position: relative;
+    overflow: hidden;
+}
+
+</style>
+<script>
+var bannerFrame;//모든 함수에서 접근하기 위해
+var gap=5; //이미지간 간격
+function init(){
+    bannerFrame=document.getElementById("banner-frame")
+    createProduct();
+}
+function createProduct(){
+    //액자안에 제품이미지 8개를 동적으로 생성하여 위치시켜본다
+    for(var i=1;i<=8;i++){
+        var img=document.createElement("img");
+        img.src="../images/vans/"+i+".png"
+        img.style.width=100+"px";
+        img.style.heigh=100+"px";
+        img.style.position="absolute";
+        img.style.left=(100+gap)*(i-1)+"px"
+        //배너에 이미지 부착
+        bannerFrame.appendChild(img);
+    }
+}
+function move(){
+    
+}
+window.addEventListener("load",function(){
+    init();
+})
+</script>
+</head>
+<body>
+    <div id="banner-frame"></div>
+</body>
+</html>

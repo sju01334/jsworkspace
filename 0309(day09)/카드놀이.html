@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+#wrapper{
+    margin:auto;
+    width: 900px;
+    height: 600px;
+    background-color: yellow;
+    overflow: hidden; 
+}
+</style>
+<script>
+var n=0;
+var div;
+var st;
+
+window.addEventListener("load",function(){
+    init();
+
+});
+function init(){
+    var bt=document.createElement("button");
+    var bt2=document.createElement("button");
+    var bt3=document.createElement("button");
+    bt.innerText="카드생성"
+    bt2.innerText="자동생성"
+    bt3.innerText="멈춰"
+    bt.addEventListener("click",function(){
+        // alert("나눌름?");
+        createCard();
+    });
+    bt2.addEventListener("click",function(){
+        st=setInterval("createCard()",100);
+    });
+    bt3.addEventListener("click",function(){
+        clearInterval(st);
+    });
+
+    div=document.createElement("div");
+    div.style.width=800+"px";
+    div.style.height=600+"px";
+    div.style.background="yellow";
+    div.style.margin="auto";
+    div.style.overflow="hidden";
+
+    document.body.appendChild(bt);
+    document.body.appendChild(bt2);
+    document.body.appendChild(bt3);
+    document.body.appendChild(div);
+}
+
+function stop(){
+    clearInterval(st);
+}
+
+function createCard(){
+    n=n%5;
+    n++;
+    var img=document.createElement("img");
+    img.src="../images/card/"+n+".png";
+    img.style.width=50+"px";
+
+    //n을 1 증가시키고 5를 넘어서면 0으로 돌려라
+    // if(n>=5){
+    //     n=0;
+    // }
+    //이미지를 div에 자식요소로 부착
+    div.appendChild(img);
+}
+
+
+
+</script>
+</head>
+<body>
+    <button onclick="stop()">이녀석도 멈춤</button>
+    
+</body>
+</html>

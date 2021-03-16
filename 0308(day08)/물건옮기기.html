@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+    body{margin:0px}
+    #wrapper{
+        position: relative;
+        width: 100%;
+        height: 600px;
+        background:yellow;
+    }
+</style>
+<script>
+var img;
+var flag=false;
+//마우스를 욺직이는 동안 좌표를 구해본다
+function getPos(){
+    console.log("마우스가 움직이는군요");
+
+    var x=event.clientX; //마우스의 x좌표
+    var y=event.clientY; //마우스의 y좌표
+    document.getElementById("x-pos").innerText=x;
+    document.getElementById("y-pos").innerText=y;
+
+    //공의 테두리로 집어야할지 말지를 확인(직관성 부여)
+    if(!flag){
+        img.style.border="2px solid red";
+    }else{
+        img.style.border="0px";
+    }
+
+    if(flag){
+        //공의 좌표를 마우스와 일치시켜보자
+        img.style.left=(x-50)+"px"; //디폴트 위치보다 이미지 절반을 좌측으로(음수)
+        img.style.top=(y-50)+"px";// 디폴트 위치보다 이미지 절반을 위쪽으로(음수)
+    }
+    
+
+}
+//프로그램이 가동되자마자 하고싶은 작업
+function init(){
+    //이미지를 동적생성하여 wrapper에 부착해보자
+    img=document.createElement("img");
+    img.src="../images/ball.png"
+    img.style.position="absolute";
+    img.style.left=100+"px";
+    img.style.top=150+"px";
+    img.style.width=100+"px"
+    img.style.height=100+"px"
+    
+    //기존의 tag에 디자인적으로 부여했던 onclick 이벤트 핸들러로, 자바스크립트 코드로
+    //구현할 경우 다음과 같다.
+    img.addEventListener("click",function(){
+        flag=!flag;
+    })
+    var wrapper=document.getElementById("wrapper");
+    wrapper.appendChild(img);
+}
+</script>
+</head>
+<body onmousemove="getPos()" onload="init();">
+    <div id="wrapper">
+        <span id="x-pos">0</span>px
+        <span id="y-pos">0</span>px
+        <!-- h1태그는 한줄 전체를 차지하기 때문에 span 사용 -->
+    </div>
+
+</body>
+</html>

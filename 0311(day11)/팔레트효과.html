@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+.wrapper{
+    width: 700px;
+    height: 600px;
+    background-color: #ccc; /*전부 동일한 경우 3개만 적어도됨*/
+    margin: auto;
+    overflow: hidden;
+}
+.box{
+    width:100px;
+    height:100px;
+    float: left;
+}
+#content{
+    width: 100%;
+    height:500px;
+    background-color: lightyellow;
+    clear: both;
+}
+</style>
+<script>
+var content;
+//함수 호출자가, 함수내부에서 사용할 변수값을 결정지을수 있는 함수
+function setBg(color){
+    //문서내에 content div 에 배경색을 적용하되, 선택한 썸네일과 같은 색으로
+    content=document.getElementById("content");
+    content.style.background=color;
+}
+function sukho(obj){
+    alert("당신이 선택한  div 아이디는"+obj);
+    var div=document.getElementById(obj);
+    alert("당신이 선택한 div에 적용된 스타일 배경색은"+div.style.background);
+    content=document.getElementById("content");
+    content.style.background=div.style.background;
+}
+
+</script>
+</head>
+<body>
+    <div class="wrapper">
+        <div id="box1" class="box" style="background:red" onclick="setBg(this.style.background)"></div>
+        <div id="box2" class="box" style="background:orange" onclick="sukho('box2')"></div>
+        <div id="box3" class="box" style="background:yellow" onclick="setBg('yellow')"></div>
+        <div id="box4" class="box" style="background:green" onclick="setBg('green')"></div>
+        <div id="box5" class="box" style="background:blue" onclick="setBg('blue')"></div>
+        <div id="box6" class="box" style="background:navy" onclick="setBg('navy')"></div>
+        <div id="box7" class="box" style="background:purple" onclick="setBg('purple')"></div>
+        <div id="content">도화지</div>
+
+    </div>
+</body>
+</html>

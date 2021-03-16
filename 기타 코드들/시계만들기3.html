@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+
+
+<script>
+    var clockHour; //시에 대한 정보 값
+    var clockMin;   //분에 대한 정보값 
+    var clockSec;   //초에 대한 정보 값
+    var clockMs;    //밀리초에 대한 정보값
+    var hour=0; 
+    var min=0;
+    var sec=0;
+    var ms=0;
+    var autoClock;  //자동시작 
+    var timeSize1;      
+    var timeSize2;
+    var timeSize3;
+    var timeSize4;
+    var imgH;   ////에니메이션 변수
+    var imgM;
+    var imgS;
+    var con=0;  //시계 초침 deg 변수
+    var numClick = 0;   //poo() 변수
+    var direction = true;
+    var count = 0;
+    var turn = true;
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    
+    //버튼 눌렀을시 호출되는 함수 
+    function countUp(){   
+        //밀리초
+        ms++;
+        timeSize1 = sizeUp(ms);
+        zeroSum(100, clockMs, timeSize1);
+        //에니메이션 poo();
+        if(ms%5 ==0){
+            poo();
+        }
+
+        //초
+        if(ms>=100){
+            sec++;
+            timeAni(sec);
+            clockSec.value = sec;
+            ms = 0;
+            
+            timeSize2 = sizeUp(sec);
+            zeroSum(60,clockSec, timeSize2);
+            
+            //분
+            if(sec >= 60){
+                min++;
+                timeAni(min);
+                clockMin.value = min;
+                sec = 0;
+                
+                timeSize3 = sizeUp(min);
+                zeroSum(60, clockMin, timeSize3);
+                
+                //시간
+                if(min >= 60){
+                    hour++;
+                    timeAni(hour);
+                    clockHour.value = hour;
+                    min = 0;
+                    
+                    timeSize4 = sizeUp(hour);
+                    zeroSum(24, clockHour, timeSize4);
+                }
+            }
+        }
+    }
+
+    
+                                                                     //사용하는 함수 영역//
+    //숫자 값의 단위가 변경될때 쓰이는 함수 
+    function sizeUp(num){      
+        var result;
+        if(num<10){
+            result = "0"+num;
+        }else{
+            result = num;
+        }
+        return result;
+    }
+    //단위 넘어갈때 0으로 표기하는 함수 
+    function zeroSum(tUnite, tName, timeSize){  
+        if(timeSize==tUnite){
+            tName.value = "0"+0;
+        }else{
+            tName.value = timeSize;
+        }
+
+                                                                    // 설정 값 영역 //
+    }
+    //자동시작
+    function autoCountUp(){
+        autoClock = setInterval("countUp()",10);
+    }
+    //자동종료
+    function stopCountUp(){
+        clearInterval(autoClock);
+    }
+    //시분초 정보 받아오기 
+    function init(){
+        clockHour = document.getElementById("hour");
+        clockMin = document.getElementById("min");
+        clockSec = document.getElementById("sec");
+        clockMs = document.getElementById("ms");
+        
+        clockHour.value = 0;
+        clockMin.value = 0;
+        clockSec.value = 0;
+        clockMs.value = 0;
+
+        imgH = document.getElementById("houImg");
+        imgM = document.getElementById("minImg");
+        imgS = document.getElementById("secImg");
+    }
+    //모든 것을 읽고시작
+    window.addEventListener("load",function(){
+        init();
+    });
+
+                                                                      // 애니메이션 영역 //
+    //시계 움직이는 에니메이션 
+    function timeAni(value){
+        con += 6;
+        var inAni = value;
+        switch(inAni){
+            case sec :  imgS.style.transform = "rotate("+(-30+con)+"deg)"; break;
+            case min :  imgM.style.transform = "rotate("+(30+con)+"deg)"; break;
+            case hour :  imgH.style.transform = "rotate("+(5+con)+"deg)"; break;
+        }
+        //imgS.style.transform = "rotate("+(-30+con)+"deg)";
+        //imgM.style.transform = "rotate("+(30+con)/60+"deg)";
+        //imgH.style.transform = "rotate("+(5+con)/3600+"deg)";  이것이 안되는 이유 ?
+    }
+    //푸 에니메이션
+    function poo(){
+        count += 1;
+        numClick = (direction==true)? numClick+10 : numClick-10;
+        direction = (numClick%500==0)? !direction : direction;
+        document.querySelector("#moveMan").style.left = numClick+"px";
+
+        // 이미지 표시
+        count = (count%7 == 0)? 1 : count;
+        turn = (numClick%500 == 0)? !turn : turn;
+        document.querySelector("#moveMan").src =(turn == true)?  "../images/rabbit/rabbitR"+count+".png" : "../images/rabbit/rabbit"+count+".png";
+        // 말풍선 표시
+        document.querySelector("#say").src = (turn == true)? "../images/말풍선/pooSayCome.png" : "../images/말풍선/pooSayGo.png" ;
+    }
+</script>
+
+
+
+
+
+
+<style>
+    #wrapper{
+        margin: auto;
+        width: 900px;
+        height: 610px;
+        border : 2px solid red;
+        border-radius: 5%;
+        position: relative
+    }
+    #wrapper2{
+        margin: auto;
+        width: 800px;
+        height: 600px;
+        position: relative
+    }
+    #wrapper input{
+        font-size: 120px;
+        width: 150px;
+        text-align: right;
+    }
+    #animation{
+        margin: auto;
+        width: 800px;
+        height: 400px;
+        background-image: url("../images/poo_background2.png");
+        background-repeat: no-repeat;
+        background-size: 800px 400px;
+        position: relative;
+    }
+    #animation img{
+        position: absolute;
+    }
+    #borImg{
+        top: 10px;
+    }
+    #secImg{
+        transform: rotate(-30deg);
+        top: 10px;
+    }
+    #minImg{
+        transform: rotate(30deg);
+        top: 10px;
+    }
+    #houImg{
+        transform: rotate(5deg);
+        top: 10px;
+    }
+    #moveMan{
+        top: 200px;
+    }
+    #say{
+        left: 400px;
+        top: 120px;
+    }
+    #buttons {
+        text-align: center;
+        margin-left: 10px;
+    }
+</style>
+
+</head>
+<body>
+        <div id="wrapper">
+            <div id="wrapper2">
+                    <input id ="hour" type="text">시간
+                    <input id = "min" type="text">분
+                    <input id = "sec" type="text">초
+                    <input id = "ms" type="text">밀리
+                    <p>
+                    <div id="buttons">
+                        <button onClick="countUp()">수동</button>
+                        <button onClick="autoCountUp()">자동</button>
+                        <button onClick="stopCountUp()">pause</button>
+                    </div>
+                    <div id=animation>
+                        <img id = "borImg" src="../images/clock/board.png">
+                        <img id = "houImg" src="../images/clock/hour.png">
+                        <img id = "minImg" src="../images/clock/min.png">
+                        <img id = "secImg" src="../images/clock/sec.png">
+                        <img id="moveMan" src="../images/rabbit/rabbitR1.png" width="100px">
+                        <img id="say" src="../images/말풍선/pooSayCome.png" width="300px">
+                    </div>
+            </div>
+        </div>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+.wrapper{
+    width: 500px;
+    height: 400px;
+    background-color: yellow;
+    margin: auto;
+}
+#photo-frame{
+    position: relative; /*자식인 container 때문에 명시*/
+    width: 500px;
+    height: 340px;
+    background-color:blue;
+    overflow: hidden;
+
+}
+/* 이미지 페이지 네비게이션 */
+#navi{
+    text-align: center;
+    font-size: 30px;
+}
+#container{
+    width: 3500px;
+    height: 340px;
+}
+#container img{
+    float: left;
+    /* height: 340px; */
+}
+#navi a{
+    text-decoration: none;/*링크 밑줄 없애기*/
+}
+/* pesudo : 가상태그(태그의 상태마저도 태그가 될 수 있다.) */
+#navi a:hover{
+    color: violet;
+}
+/* #navi a:active{
+    color: red;
+} */
+</style>
+<script>
+    //포지션을 제어하기 위해, 문서 로드와 동시에 container에 absolute 적용
+// var targetX=-3000;
+var cont; //모든 함수에서 접근하기 위해
+var a=0.1//비율 계수(숫자가 커질수록 걸음이 커진다)
+function init(){
+    cont=document.getElementById("container");
+    cont.style.position="absolute"; //부모를 기준으로 한 위치속성, 여기서 부모는
+                                                //photo-frame div 이다
+    cont.style.top=0+"px";
+    cont.style.left=0+"px" //left 값 초기화
+    setInterval("move()",10);
+}
+
+//container 이동시키기
+function move(){
+    // container.style.left=targetX+"px"
+    //부드럽게==감속
+    // 나의 위치 = 현재 나의 위치 + (목표지점-현재나의위치)*비율
+    cont.style.left=parseFloat(cont.style.left)+a*(targetX-parseFloat(cont.style.left))+"px"
+
+}
+function setTarget(x){
+    targetX=x;
+}
+window.addEventListener("load",function(){
+    init();
+});
+</script>
+</head>
+<body>
+    <div class="wrapper">
+        <div id="photo-frame">
+            <!-- 길다란 사진을 모아놓는 컨테이너 -->
+            <div id="container">
+                <img src="../images/shurek/img0.jpg" alt="">
+                <img src="../images/shurek/img1.jpg" alt="">
+                <img src="../images/shurek/img2.jpg" alt="">
+                <img src="../images/shurek/img3.jpg" alt="">
+                <img src="../images/shurek/img4.jpg" alt="">
+                <img src="../images/shurek/img5.jpg" alt="">
+                <img src="../images/shurek/img6.jpg" alt="">
+            </div>
+        </div>
+            
+        <div id="navi">
+            <!-- 
+                html 문서에 자바스크립트 작성할 수 있는 영역?
+                1) script 태그 안에
+                2) 이벤트 핸들러 안
+                3) a href 안에도 가능(javascript:명시)
+             -->
+            <a href="javascript:setTarget(0)">●</a>
+            <a href="javascript:setTarget(-500)">●</a>
+            <a href="javascript:setTarget(-1000)">●</a>
+            <a href="javascript:setTarget(-1500)">●</a>
+            <a href="javascript:setTarget(-2000)">●</a>
+            <a href="javascript:setTarget(-2500)">●</a>
+            <a href="javascript:setTarget(-3000)">●</a>
+        </div>
+
+    </div>
+</body>
+</html>

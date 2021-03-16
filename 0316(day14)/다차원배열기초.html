@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<script>
+var fruit=["사과","딸기"];
+var car=["벤츠","BMW"];
+var planet=["벤츠","BMW"];
+
+// 위에서 일차원 배열에 이름을 부여했으나 이시점부터는 
+
+var box =[
+    ["사과","딸기"],
+    ["벤츠","BMW"],
+    ["벤츠","BMW"]
+]
+
+// for(var i=0;i<fruit.length;i++){
+//     document.write(fruit[i]+"&nbsp");
+// }
+// for(var i=0;i<car.length;i++){
+//     document.write(car[i]+"&nbsp");
+// }
+// for(var i=0;i<planet.length;i++){
+//     document.write(planet[i]+"&nbsp");
+// }
+
+for(var i=0;i<box.length;i++){
+    for(var a=0;a<fruit.length;a++){
+        document.write(i+"층의"+a+"호"+box[i][a]+"<br>");
+    }
+}
+
+
+</script>
+</head>
+<body>
+    
+</body>
+</html>

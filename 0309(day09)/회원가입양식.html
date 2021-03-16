@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+.wrapper{
+    width: 600px;
+    margin: auto;
+}
+</style>
+<script>
+//onLoad 를 쓸수도 있으나, 오늘은 왠지 프로그밍적으로 해결하겠다
+window.addEventListener("load",function(){
+    //이 시점은 body 태그까지 모두 읽혀진 시점이므로,
+    //마음대로 요소들에 접근할 수 있는 시점이다
+    var bt=document.querySelector("button");
+    bt.style.background="blue";
+    
+    bt.addEventListener("click",function(){
+        // alert("나 눌렀어?");
+        send();
+    });
+});
+//웹 서버의 가입양식의 내용을 네트웍을 통해 전송한다!
+//이때 전송대상이 되는 컴퓨넌트들을 전송양식으로 묶어야하는데
+//이때 사용되는 태그가 바로 form 태그다
+function send(){
+    //유효성 체크
+    var user_id=document.getElementById("user-id");
+    var user_pass=document.getElementById("pass");
+    var user_pass2=document.getElementById("pass2");
+    
+    console.log("당신이 입력한 아이디는",user_id.value);
+
+    if(user_id.value==""){
+        alert("아이디를 입력하세요");
+        //커서 올리기
+        user_id.focus();
+    }else if(user_pass.value==""){
+        alert("비밀번호를 입력하세요");
+        user_pass.focus();
+    }else if(user_pass.value!=user_pass2.value){
+        alert("비밀번호가 다릅니다");
+        user_pass2.focus();
+    }else if(!document.getElementsByName("agree")[0].checked){
+        alert("동의하세요")
+    }else{
+        var form1=document.getElementById("form1");
+        //입력양식인 form 태그에는 전송대상 서버에 어떤 방식으로 전송할지
+        //등을 지정할 수 있다.
+        form1.action="http://daum.net";//전송대상 url
+        form1.submit();//전송됨(네트웍을 통해 입력데이터들이 날아감)
+    }
+
+
+
+}
+</script>
+</head>
+<body>
+    <div class="wrapper">
+        <form id="form1" action="">
+            <table width="100%" border="1px">
+                <tr>
+                    <td><input type="text" placeholder="ID" id="user-id"></td>
+                </tr>
+                <tr>
+                    <td><input type="password" placeholder="Password" id="pass"></td>
+                </tr>
+                <tr>
+                    <td><input type="password" placeholder="confirm Password" id="pass2"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <select name="" id="">
+                            <option value="">010</option>
+                            <option value="">011</option>
+                            <option value="">017</option>
+                            <option value="">019</option>
+                        </select>-
+                        <input type="text"placeholder="앞자리">
+                        <input type="text"placeholder="뒷자리">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="radio" name="agree" value="yes">동의
+                        <input type="radio" name="agree" checked value="no">동의안함
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <!-- html5 버튼은 디폴트가 submit속성을 보유 -->
+                        <button type="button">가입</button>
+                    </td>
+                </tr>
+            </table>
+    </form>
+    </div>
+</body>
+</html>

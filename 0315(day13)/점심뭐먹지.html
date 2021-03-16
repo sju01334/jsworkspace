@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<script>
+    // 원하는 메뉴를 선택하기 전에, 컴퓨터에서 랜덤을 구하는 방법부터 배워야 함
+    // 대부분의 언어가 비슷비슷..(java, javascript 흡사)
+var food=["소고기","치킨","피자","삼겹살","마라샹궈"]
+function getRandom(){
+    // 배열의 길이를 구하는 속성 : 배열.length
+    console.log("당신이 선택할 수 있는 음식의 수는", food.length)
+    // 이 함수를 호출할 때마다, 랜덤값을 반환받아보자
+    var r=parseInt(Math.random()*food.length); //js 가 0~1사이의 난수를 반환
+    console.log(r);
+
+    console.log("오늘의", food[r],"가즈아!!!");
+}
+</script>
+</head>
+<body>
+    <button onclick="getRandom()">랜던값 구하기</button>
+</body>
+</html>

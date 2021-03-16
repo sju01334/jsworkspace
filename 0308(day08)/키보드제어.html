@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+#wrapper{
+    position: relative;
+    margin: auto;
+    width:1200px;
+    height:650px;
+    background: url(../images/ab.PNG);
+    background-size: 1200px 650px;
+    background-repeat: repeat-x;
+    overflow: hidden;
+}
+</style>
+<script>
+var img;//다른 함수에도 접근이 가능하게 하려면 전역변수로 선언
+            // 전역변수로 선언하면, 프로그램이 종료될떄까지 그 값을 사용할수있다.
+var x=50;
+var y=460;
+var container;//div는 객체형(나중에 학습예정)
+var bgX=0;
+
+function init(){
+    //우주선을 디자인적으로 생성시키지 말고, 프로그래밍적으로 생성해보자.
+    container=document.getElementById("wrapper");//이미 존재하는 것을 가져올때
+    img=document.createElement("img");// 기존에 없는 요소를 생성할떄
+    img.src="../images/zoombie.png"
+    img.id="hero"
+    
+    //이미지 크기 지정
+    img.style.height=150+"px";
+    
+    //포지션 지정
+    img.style.position="absolute";
+    img.style.left=50+"px";
+    img.style.top=460+"px";
+    //wrapper에 이미지 자식 요소로 부착
+    container.appendChild(img);
+    
+    setInterval("moveBg()",10);//실행부가 하나 별도로 존재하여, moveBg를 호출
+}
+function joystick(){
+    /*사용자가 키보드를 입력할떄, 키보드의 각 영문철자 하나하나마다, 1:1 대응하는
+    아스키코드로 변환되어 컴퓨터에게 전달되어지는데,
+    그 이유는 컴퓨터는 1과 0만 이해하기 때문에
+    각 키보드의 영문철자를 이진구로 변환하기 위함이다
+    모든 프로그래밍 언어는 아스키코드를 반환하는 기능이 있다*/
+    console.log("당신이 누른 철자에 매칭되는 아스키코드는",event.keyCode)
+    //우주선을 x측 방향으로 증가
+    if(event.keyCode==39){
+        x+=10; //전역변수에 10씩 누적
+        img.style.left=x+"px"
+    }
+    if(event.keyCode==37){
+        x-=10; //전역변수에 10씩 누적
+        img.style.left=x+"px"
+    }
+    if(event.keyCode==38){
+        y-=10; //전역변수에 10씩 누적
+        img.style.top=y+"px"
+    }
+    if(event.keyCode==40){
+        y+=10; //전역변수에 10씩 누적
+        img.style.top=y+"px"
+    }
+    
+}
+function moveBg(){
+    bgX--;
+    container.style.backgroundPosition=bgX+"px 0px";
+
+    // moveBg();
+    // setTimeout("moveBg()",10); //지정한 함수를 지정한 시간뒤에 호출
+                                            // 1/1000 단위까지 푠현 가능
+}
+/* setInerval(): 무한호출
+    setTimeout():1회 호출, 무한루프 효과를 내려면 재귀호출로 이용한다.*/
+</script>
+</head>
+<!-- 문서의 내용이 다 읽혀졌을 때 호출되는 onLoad 이벤트 핸들러를 이용 
+문자열을 감싸는 기능을 갖는 특스문자 역슬래시를 붙이면 일반문자가 된다(escape)-->
+<body onload="init();moveBg();" onkeydown="joystick()">
+    <div id="wrapper">게임배경나올곳
+
+    </div>
+</body>
+</html>
+<script>
+    // 옵션) 스크립트 자체를 문서 제일 아래에 두는 방법
+    // init(); //기존함수 호출
+</script>

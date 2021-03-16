@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+#wrapper{
+    margin: auto;
+    width: 600px;
+    position: relative;
+    background-color:rgb(187, 127, 214);
+}
+#tUnit{
+    text-align: center;
+}
+#tUnit input{
+    font-size:120px;
+    width: 150px;
+    text-align: center;
+    margin-top: 10px;
+    background-color: black;
+    color: white;
+}
+#tUnit span{
+    font-weight: bold;
+    font-size: 40px;
+    padding-right: 50px;
+    padding-left: 50px;
+    font-family:fantasy;
+}
+.button{
+    width: 100px;
+    cursor: pointer;
+}
+
+#bUnit{
+    text-align: center;
+
+}
+</style>
+<script>
+    //프로그램 가동과 동시에, 초기화 시킬 작업이 있다면 init()에서 해보자
+var t_min; //숫자 자체가 아닌 input 박스다
+var t_sec;
+var t_hour;
+var sec=0; //초를 담을 전역변수
+var min=0;
+var hour=0;
+var st;
+
+function init(){
+    t_min=document.getElementById("t_min");
+    t_sec=document.getElementById("t_sec");
+    t_hour=document.getElementById("t_hour");
+    //분과 초에 0으로 초기화
+    t_min.value="0"+0;
+    t_sec.value="0"+0;
+    t_hour.value="0"+0;
+
+}
+// 0에 대한 처리를 해주는 함수
+function getZeroString(n){
+    // 이 함수를 호출하는 자가 n에 숫자를 넘기되,
+    // 10보다 작으면 앞에 0 문자를 추가하고, 아니면 숫자만 반환하자
+    var result;
+    if(n<10){
+        result="0"+n;
+    }else{
+        result=n;
+    }
+    return result;
+}
+
+//초를 증가 시키자
+function countDown(){
+    min=t_min.value;
+    sec=t_sec.value;
+    hour=t_hour.value;
+
+    while(sec>=60){
+            min++;
+            t_min.value=getZeroString(min);
+            console.log(min);
+            sec -=60;
+    }
+    while(min>=60){
+        hour++;
+        t_hour.value=getZeroString(hour);
+        min-=60;
+    }
+
+
+    if(sec<=0){
+        if(min<=0){
+            if(hour<=0){
+                alert("시간이 종료되었습니다!");
+                stop();
+                return;
+            }
+            hour--;
+            t_hour.value=getZeroString(hour);
+            min=60;
+        }
+        sec=59;
+        t_sec.value=getZeroString(sec);
+        min--
+        t_min.value=getZeroString(min);
+    }else{
+        sec--;
+        t_sec.value=getZeroString(sec);
+    }
+    
+    if(sec<=10){
+        set_col();
+    }
+    
+}
+function set_col(){
+    var r=parseInt(Math.random()*255);
+    var g=parseInt(Math.random()*255);
+    var b=parseInt(Math.random()*255);
+    t_sec.style.backgroundColor="rgb("+r+","+g+","+b+")";
+    t_min.style.backgroundColor="rgb("+r+","+g+","+b+")";
+    t_hour.style.backgroundColor="rgb("+r+","+g+","+b+")";
+}
+ 
+
+function start(){
+    st=setInterval("countDown()",1000);
+}
+function stop(){
+    clearInterval(st);
+}
+function reset(){
+    clearInterval(st);
+    init();
+    sec=0;
+    min=0;
+    hour=0;
+}
+window.addEventListener("load", function(){
+    init();
+});
+
+</script>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="tUnit">
+            <span>hour</span>
+            <span>min</span>
+            <span>sec</span>
+            <input type="text" id="t_hour">
+            <input type="text" id="t_min">   
+            <input type="text" id="t_sec">
+        </div>
+        <div id="bUnit">
+            <!-- <button onclick="countDown()">수동</button> -->
+            <img class="button" src="../images/button/play.png" alt="" onclick="start();">
+            <img class="button" src="../images/button/pause.png" alt="" onclick="stop();">
+            <img class="button" src="../images/button/stop.png" alt="" onclick="reset();">
+        </div>
+        <p>
+        
+    </div>
+
+</body>
+</html>

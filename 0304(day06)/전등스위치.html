@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+#wrapper{
+    position: relative;
+    background: url(../images/room.jpg);
+    width: 900px;
+    height: 620px;
+    background-size: 900px 620px;
+}
+#wrapper img{
+    position: absolute;
+    width: 35px;
+    left: 0px;
+    top: 0px;
+
+}
+#surface{
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0.8;
+}
+</style>
+<script>
+var op=0.8;
+var flag=true;
+//스위치를 켜고 끄는 함수
+function turn(){
+    //투명막 제어 : 문서내의 surface라 불리는 요소의 
+    //스타일 중 opacity 값을 불투명 0(켜기),0.8(끄기)
+    op=(flag)? 0:0.8; 
+    sw=(flag)? "on":"off";
+    document.querySelector("#surface").style.opacity=op;
+    document.querySelector("img").src="../images/button/"+sw+".png";
+    flag=!flag;
+    
+    //스위치 이미지도 제어
+}
+
+</script>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="surface">투명막</div>
+        <img src="../images/button/off.png" alt="" onClick="turn()">
+    </div>
+</body>
+</html>

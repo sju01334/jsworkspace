@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+.wrapper{
+    width: 500px;
+    height: 700px;
+    background-color: yellow;
+    margin: auto;
+}
+#word-area{
+    width: 100%;
+    height: 200px;
+    background-color:lightsalmon;
+    font-size: 100px;
+    text-align: center;
+}
+#input-area{
+    height: 150px;
+}
+#input-area input{
+    width: 98%;
+    height: 100%;
+    background-color: rgb(48, 81, 129);
+    color: white;
+    font-weight: bold;
+    font-size: 85px;
+    text-align: center;
+}
+#feedback{
+    width: 100%;
+    height: 200px;
+    font-size: 180px;
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    background-color: lightskyblue;
+
+}
+#score{
+    height: 150px;
+    font-size: 130px;
+    font-weight: bold;
+    color: #000;
+    text-align: center;
+}
+</style>
+<script>
+// 데이터를 배열화 시키면 순서가 생긴다. 따라서 게임시 "다음단어"라는 개념이 생겼다.
+var word=["송강","사랑해","롬곡","흘려줘","송중기","널보면","마음이","쿵쾅쿵쾅","코딩","살려줘"]
+// 다른 함수에서 접근할 예정인 것들은 미리 전역변수로 빼놓자
+var wordArea;
+var inputArea;
+var msg;
+var feedback;
+var score;
+var idx=0;
+var n=0;
+
+
+
+function enter(){
+    // console.log(event.keyCode)
+    if(event.keyCode==13){
+        if(idx<word.length){
+            idx++;
+            if(msg.value==wordArea.innerText){
+                // 맞음에 대한 피드백
+                feedback.innerText="O";
+                // 점수 10점 증가
+                n+=10;
+            }else{
+                // 틀림에 대한 피드백
+                feedback.innerText="X";
+            }
+            score.innerText=n+"점";
+            printWord();
+            // 이미 입력한 텍스트는 초기화
+            msg.value="";
+        }
+        if(idx==word.length){
+            wordArea.innerText="이제 끝"
+            feedback.style.fontSize=90+"px"
+            feedback.innerText="게임종료";
+        }
+    }
+}
+
+function init(){
+    wordArea=document.getElementById("word-area");
+    inputArea=document.getElementById("input-area");
+    msg=document.getElementById("msg");
+    feedback=document.getElementById("feedback");
+    score=document.getElementById("score");
+}
+// 유저가 따라치게될 메세지 나오는곳
+function printWord(){
+    wordArea.innerText=word[idx];
+}
+window.addEventListener("load",function(){
+    init();
+    printWord();
+    // 프로그램 가동과 동시에 커서 텍스트 박스에 위치시킴
+    msg.focus();
+})
+</script>
+</head>
+<body>
+    <div class="wrapper">
+        <div id="word-area">단어출력</div>
+        <div id="input-area">
+            <input type="text" placeholder="단어입력" onkeyup="enter()" id="msg">
+                             <!-- onkeyup - 눌렀다가 뗄떄가 끝나는시점 -->
+        </div>
+        <div id="feedback"></div>
+        <div id="score">0점</div>
+    </div>
+    
+</body>
+</html>
