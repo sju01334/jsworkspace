@@ -91,11 +91,15 @@ function countDown(){
         min-=60;
     }
 
-
+    sec--;
+    
     if(sec<=0){
         if(min<=0){
             if(hour<=0){
-                alert("시간이 종료되었습니다!");
+                t_sec.value="0"+0;
+                setTimeout(function(){
+                    alert("시간이 종료되었습니다!");
+                },1);
                 stop();
                 return;
             }
@@ -108,10 +112,8 @@ function countDown(){
         min--
         t_min.value=getZeroString(min);
     }else{
-        sec--;
         t_sec.value=getZeroString(sec);
     }
-    
     if(sec<=10){
         set_col();
     }

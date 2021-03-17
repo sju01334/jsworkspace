@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #wrapper{
+            width: 650px;
+            margin: auto;
+        }
+        #wrapper2{
+            border: 1px solid red;
+        }
+        #timer{
+            width: 100%;
+            height: 45px;
+            text-align: center;
+        }
+        #timer input{
+            text-align: right;
+        }
+        #buttons{
+            width: 100%;
+            height: 25px;
+            text-align: center;
+        }
+        #buttons button{
+            margin-left: 10px;
+        }
+        #lapTime{
+            text-align: center;
+        }
+    </style>
+</head>
+<script>
+    var t_sec;
+    var t_min;
+    var t_hour;
+    var sec=0;
+    var min=0;
+    var hour=0;
+    var lapDiv;
+    var table;
+    var st;
+    var lap=0;
+    //로드
+    function init(){
+        t_min=document.getElementById("t_min");
+        t_sec=document.getElementById("t_sec");
+        t_hour=document.getElementById("t_hour");
+        t_min.value=getZeroString(min);
+        t_sec.value=getZeroString(sec);
+        t_hour.value=getZeroString(hour);
+    }
+    //카운터
+    function countUp(){
+        sec++
+        if(sec>=60){
+            sec-=60
+            min++
+        }else if(min>=60){
+            min-=60
+            hour++
+        }
+        t_sec.value=getZeroString(sec);
+        t_min.value=getZeroString(min);
+        t_hour.value=getZeroString(hour);
+    }
+    //숫자 2자리 반환
+    function getZeroString(n){
+        var  result
+        if(n<10){
+            result="0"+n;
+        }else{
+            result=n;
+        }return result;
+    }
+    //시작
+    function startUp(){
+        st=setInterval("countUp()", 100)
+        //랩타임 버튼 활성화
+        document.getElementById("lapTimer").disabled=false;
+    }
+    //랩타임
+    function lapTime(){
+        lap++
+        if(lap<=5){
+            var tr=document.createElement("tr");
+            table.appendChild(tr);
+
+            var td1=document.createElement("td");
+            td1.style.border=1+"px solid red";
+            td1.innerText=lap+"번째 lap";
+            td1.width=100+"px";
+            tr.appendChild(td1);
+
+            var td2=document.createElement("td");
+            td2.style.border=1+"px solid red";
+            td2.innerText=hour+"시간 "+min+"분 "+sec+"초";
+            tr.appendChild(td2);
+
+        }else if(lap==6){
+            var tr=document.createElement("tr");
+            table.appendChild(tr);
+
+            var td1=document.createElement("td");
+            td1.style.border=1+"px solid red";
+            td1.innerText="유료기능확장";
+            tr.appendChild(td1);
+
+            var td2=document.createElement("td");
+            td2.style.border=1+"px solid red";
+            td2.innerText="5000원";
+            tr.appendChild(td2);
+
+            var tr2=document.createElement("tr");
+            table.appendChild(tr2);
+            var td3=document.createElement("td");
+            td3.colSpan=2;
+            td3.style.border=1+"px solid red";
+            td3.innerText="민썜은행 110-401-410860 예금주:멋쟁이민썜";
+            tr2.appendChild(td3);
+        }
+    }
+    //중지
+    function stop(){
+        //정지 시 랩타임 비 활성화
+        document.getElementById("lapTimer").disabled=true;
+        clearInterval(st);
+        document.getElementById("startButton").disabled=false;
+    }
+    //초기화
+    function resetAll(){
+        //초기화 시 랩타임 비활성화
+        document.getElementById("lapTimer").disabled=true;
+        clearInterval(st);
+        document.getElementById("startButton").disabled=false;
+        lap=0;
+        sec=0;
+        min=0;
+        hour=0;
+        t_sec.value=getZeroString(sec);
+        t_min.value=getZeroString(min);
+        t_hour.value=getZeroString(hour);
+        //초기화 시 테이블 제거 및 재생성
+        lapDiv.removeChild(table);
+        makeLap();
+    }
+
+    //랩타임 테이블 만들기
+    function makeLap(){
+        lapDiv=document.getElementById("lapTime");
+        table = document.createElement("table");
+        table.style.width=400+"px";
+        table.style.margin="auto";
+        table.style.textAlign="center";
+        lapDiv.appendChild(table);
+    }
+    window.addEventListener("load",function(){
+        init();
+        makeLap();
+        document.getElementById("lapTimer").disabled=true;
+    });
+    
+</script>
+<body>
+    <div id="wrapper">
+        <div id="wrapper2">
+            <div id="timer">
+                <input type="text" id="t_hour">시간
+                <input type="text" id="t_min">분
+                <input type="text" id="t_sec">초
+            </div>
+            <div id="buttons">
+                <button id="startButton" onclick="startUp();this.disabled=true;">시작</button>
+                <button id="lapTimer" onclick="lapTime()">랩타임</button>
+                <button onclick="stop()">일시정지</button>
+                <button onclick="resetAll()">초기화</button>
+            </div>
+        </div>
+        <div id="lapTime"></div>
+    </div>
+</body>
+</html>

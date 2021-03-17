@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게임 스테이지 동적 생성</title>
+<style>
+#container{
+    width:1000px;
+    height: 600px;
+    background: url("../images/1624_2.jpg");
+    background-size: 1000px 600px;
+    margin: auto;
+    position: relative;
+}
+</style>
+<script>
+var container;
+var map=[
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,2,0,0],
+    [0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0],
+    [0,0,2,0,0,0,0,2,0,0,1,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+];
+
+
+function init(){
+    container=document.getElementById("container")
+    createBlock();
+}
+//게임에 등장할 블럭을 container div에 올려놓자
+function createBlock(){
+    for(var i=0;i<map.length;i++){
+        for(var a=0;a<map[i].length;a++){
+            if(map[i][a]==1){
+                var img=getGameItem("diamond1.png",a,i);
+                container.appendChild(img);
+            }else  if(map[i][a]==2){
+                var img=getGameItem("diamond2.png",a,i);
+                container.appendChild(img);
+            }
+        }
+    }
+}
+
+//이 함수를 호출하면 원하는 아이템을 가져갈수 있따.
+function getGameItem(path,a,i){
+    var img=document.createElement("img");
+    img.src="../images/"+path;
+    img.style.width=50+"px"
+    //  img.style.height=20+"px"
+    img.style.position="absolute";
+    img.style.left=(50*a)+"px"
+    img.style.top=(50*i)+"px"
+    //내가 원하는 위치에 20개이상 배치해보기
+    return img;
+}
+
+window.addEventListener("load", function(){
+    init();
+});
+</script>
+</head>
+<body>
+    <div id="container"></div>
+</body>
+</html>
