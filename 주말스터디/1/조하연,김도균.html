@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #wrapper{
+            width: 500px;
+            height: 150px;
+            margin: auto;
+            padding-top: 10px;
+            border: 3px solid blue;
+            background-color: aqua;
+        }
+        #wrapper input{
+            font-size: 100px;
+            width: 150px;
+            text-align:right;
+            background: yellow;
+        }
+    </style>
+    <script>
+    var time=0;
+    var hour=0;
+    var min=0;
+    var sec=0;
+    var inputH;
+    var inputM;
+    var inputS;
+
+    function init(){
+        inputH=document.getElementById("t_hour");
+        inputM=document.getElementById("t_min");
+        inputS=document.getElementById("t_sec");
+
+        inputH.value=0;
+        inputM.value=0;
+        inputS.value=0;
+    }
+    function start(){
+        hour=parseInt(inputH.value);
+        min=parseInt(inputM.value);
+        sec=parseInt(inputS.value);
+        time+=hour*60*60;
+        time+=min*60;
+        time+=sec;
+        
+        gg=setInterval("cal()",1000);
+    }
+    function cal(){
+        time--;
+
+        inputH.value=parseInt(time/(60*60));
+        inputM.value=parseInt(time%(60*60)/60);
+        inputS.value=parseInt(time%60);
+
+        if(time==0){
+            alert("타이머 끝>.<!");
+            clearInterval(gg);
+        }
+    }
+    window.addEventListener("load",function(){
+        init();
+    });
+    </script>
+</head>
+<body>
+    <div id="wrapper" align="center">
+        <input type="text" id="t_hour">
+        <input type="text" id="t_min">
+        <input type="text" id="t_sec">
+        <button onclick="start()">시작</button>
+    </div>
+</body>
+</html>

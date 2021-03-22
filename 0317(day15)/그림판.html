@@ -43,7 +43,7 @@ function init(){
     log=document.getElementById("log");
     createRect(); //사각형 생성 호출
 
-    setInterval("recPlay()",50);//clearTimeout 호출하지 않는한 무한동작
+    setInterval("recPlay()",10);//clearTimeout 호출하지 않는한 무한동작
 
     //노란색 화면을 대상으로 마우스를 눌렀다면 (그림 그리고 싶으면 flag=true)
     content.addEventListener("mousedown", function(){
@@ -55,8 +55,6 @@ function init(){
         // console.log("마우스 손땜")
         flag=false;
     });
-
-
 }
 //그림판 픽셀을 표현할 사각형 생성
 function createRect(){
@@ -161,7 +159,7 @@ window.addEventListener("load", function(){
 });
 </script>
 </head>
-<body onmou>
+<body>
     <div class="wrapper">
         <div id="content"></div>
         <div id="log"></div>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #wrapper{
+            width:550px;
+            margin: auto;
+            border: 1px solid red;
+            text-align: center;   
+            position: relative;
+     
+        }
+        #wrapper input{
+            font-size: 110px;
+            width: 130px;
+            text-align: center;  
+            position: relative;
+            transform: translate(0,10%);             
+        }
+        #wrapper button{
+            text-align: center;
+            border: 1px solid red;
+            text-decoration-color: red;
+            border-radius: 7px;
+        }
+    </style>
+    <script>
+    
+     var t_hour;
+     var t_min;
+     var t_sec;
+     
+     var sec=0;
+     var min=0;
+     var hour=0;
+    
+     var aStart;
+    function init(){
+        t_hour=document.getElementById("t_hour");
+        t_min=document.getElementById("t_min");
+        t_sec=document.getElementById("t_sec");
+    
+        t_hour.value="0"+0;
+        t_min.value="0"+0;
+        t_sec.value="0"+0;
+    }
+    
+    function zero(n){
+        var result;
+        if(n<10){  
+            result="0"+n
+        }else{
+            result=n
+        }
+        return result;
+    }
+    
+    function start(){
+        if(t_min.value>=0&&t_sec.value>0){          
+            t_sec.value--;
+            t_sec.value=zero(t_sec.value);
+        }else if(t_min.value>0){
+            t_min.value--;
+            t_sec.value=59;
+            t_min.value=zero(t_min.value);
+        }else if(t_hour.value>0){
+            t_hour.value--;
+            t_min.value=59;
+            t_sec.value=59;
+            t_hour.value=zero(t_hour.value);
+        }else if( t_hour.value==0&&t_min.value==0&&t_sec.value==0){
+            alert("삐빅")
+            pause();
+        }
+    }
+    
+    function autoStart(){
+        aStart=setInterval("start()",10);
+    }
+    
+    function pause(){
+        clearInterval(aStart);
+    }
+    
+    window.addEventListener("load", function(){
+        init();
+        
+    });
+    </script>
+</head>
+<body>   
+    <div id="wrapper">
+        <input type="text" id="t_hour">시
+        <input type="text" id="t_min">분
+        <input type="text" id="t_sec">초
+        <p>
+            <button onClick="start()">start</button>
+            <button onClick="autoStart()">auto</button>
+            <button onClick="pause()">pause</button>
+        </p>
+    </div>
+</body>
+</html>

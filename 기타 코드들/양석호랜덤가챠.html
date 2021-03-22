@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{margin: 0px}
+        .wrapper{
+            width: 1000px;
+            height: 800px;
+            background: chartreuse;
+            margin: auto;
+            position: relative;
+            text-align: center;
+        }
+        #content{
+            width: 1000px;
+            height: 700px;
+            background: chartreuse;
+            position: relative;
+        }
+    </style>
+    <script>
+        var ppple
+        var menbers=[];
+        var membersDiv=[];
+        var xArr=[];
+        var a=0.1;
+        var targetY=200;
+
+        function init(){
+            ppple=document.getElementById("ppple")
+            ppple.value="김진아,양석호,이은우,조하경,지정환,최효주,강신혁,김도균,김요한,송미진,이돈엽,이승언,조하연,주윤";
+        }
+        function mijin(){
+            xArr.sort(function(a, b){return 0.5 - Math.random()});
+            setInterval("move()", 10);
+        }
+        function makeMember(){
+            members=ppple.value.split(",");
+            members.sort(function(a, b){return 0.5 - Math.random()});
+            for(var i=0;i<members.length;i++){
+                var div=document.createElement("div")
+                div.innerText=members[i];
+                div.style.position="absolute";
+                div.style.left=50+i*65+"px";
+                div.style.top=600+"px";
+                document.getElementById("content").appendChild(div);
+                membersDiv.push(div);
+                xArr.push(div.style.left);
+            }
+        }
+        function move(){
+            for(var i=0;i<membersDiv.length;i++){
+                membersDiv[i].style.left = parseInt(membersDiv[i].style.left)+a*(parseInt(xArr[i]) - parseInt(membersDiv[i].style.left))+"px";
+                membersDiv[i].style.top = parseInt(membersDiv[i].style.top)+a*(targetY - parseInt(membersDiv[i].style.top))+"px";
+                
+            }
+        }
+        window.addEventListener("load",function(){
+            init();
+        });
+    </script>
+</head>
+<body>
+    <div class="wrapper">
+        <div id="content"></div>
+        <div id="ansRen"><input type="text" id="ppple"></div>
+        <div>
+            <button onclick="makeMember()">서밋</button>
+            <button onclick="mijin()">이동</button>
+        </div>
+    </div>
+</body>
+</html>

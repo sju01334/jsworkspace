@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<style>
+#wrapper{
+    width: 900px;
+    height: 250px;
+    margin: auto;
+    border: 1px solid red;
+    text-align: center;
+    position: relative;
+}
+
+#wrapper input{
+    font-size: 120px;
+    width: 150px;
+    text-align: right;
+    position: relative;
+    top: 30px;
+}
+
+#wrapper span{
+    font-size: 50px;
+    position: relative;
+    top: 15px;
+}
+
+#bt{
+    width: 50px;
+    height: 25px;
+    background-color: white;
+    color: red;
+    border: 1px solid red;
+    border-radius: 5px;
+    position: relative;
+    top: 40px;
+}
+
+#bt:hover{
+    background-color: red;
+    color: white;
+}
+
+#bt:active{
+    background-color: yellow;
+    color: black;
+}
+</style>
+<script>
+var t_hour;
+var t_min;
+var t_sec;
+
+var hour = 0; //시 초기화
+var min = 0; //분 초기화
+var sec = 0; //초 초기화
+
+var st; //무한루프
+var cnt = 0; //카운트 초기화
+
+
+function init(){
+    t_hour = document.getElementById("t_hour");
+    t_min = document.getElementById("t_min");
+    t_sec = document.getElementById("t_sec");
+
+    t_hour.value = getZeroString(hour); // 0이므로 00으로 출력
+    t_min.value = getZeroString(min);
+    t_sec.value = getZeroString(sec);
+
+    
+}
+
+function getZeroString(n){ 
+if(n<10){
+        return "0" + n; //시,분,초 값이 10미만이면 10의 자리에 0이 나오게 함
+    }else{
+        return n; //시,분,초 값이 10이상이면 그대로 출력
+    }
+}
+
+function countDown(){ 
+
+    sec = parseInt(t_sec.value);
+    min = parseInt(t_min.value);
+    hour = parseInt(t_hour.value);
+
+    if(hour>24 || min>59 || sec>59 || hour<0 || min<0 || sec<0 || (hour==24 && (min>0 || sec>0)) || (hour==0 && min==0 && sec==0)
+        || isNaN(hour) || isNaN(min) || isNaN(sec) ){
+        alert("시간을 다시 입력해주세요!");
+        stop();
+        t_sec.value = getZeroString(0); 
+        t_min.value = getZeroString(0);
+        t_hour.value = getZeroString(0);
+        
+    }else{
+        sec--;  //1초씩 감소
+
+        if(sec<0){ //60초가 되면 초를 0으로 초기화를 시킨 후, 1분 증가
+            sec = 59;
+            min--;
+        }
+        if(min<0){ //60분이 되면 분을 0으로 초기화를 시킨 후, 1시 증가
+            min = 59;
+            hour--;
+        }
+        
+        alarm();
+
+        t_sec.value = getZeroString(sec); //초를 두자릿수 출력에 맞게 value값에 입력
+        t_min.value = getZeroString(min); //분을 두자릿수 출력에 맞게 value값에 입력
+        t_hour.value = getZeroString(hour); //시를 두자릿수 출력에 맞게 value값에 입력
+
+        // init(); //시,분,초 값을 타이머에 입력, 한 자릿수를 두 자릿수로 출력
+    }
+}
+
+function alarm(){
+    if(hour==0 && min==0 && sec==0){
+        stop();
+        setTimeout('alert("땡땡땡")', 1);
+    }
+}
+
+function start(){ //start버튼 누르면 타이머 시작
+    if(cnt==0){
+        st = setInterval("countDown()",1000);
+    }
+    cnt++;
+    // 카운트(cnt)를 한 이유? start 버튼을 여러번 누르면 setInterval이 여러 번 실행이 되면서
+    // clearInterval를 해도 무한루프가 종료되지 않기 때문에 카운트(cnt)를 둬서
+    // 최초 한 번 눌렸을때만 무한루프가 실행되도록 함.
+}
+
+function stop(){ //pause버튼 누르면 타이머 정지
+    clearInterval(st);
+    cnt = 0;
+    // clearInterval로 무한루프를 정지시키고, 카운트(cnt)를 0으로 다시 초기화 시켜서
+    // 다시 start를 눌렀을 때, 무한루프가 다시 동작 가능하도록 함.
+}
+
+function reset(){
+    if(cnt>0){ //무한 루프가 돌고 있는 중에 눌리면 무한루프를 종료 시키고 reset!
+        stop();
+    }
+
+    hour = 0;
+    min = 0;
+    sec = 0; //시,분,초 0으로 초기화
+
+    t_sec.value = getZeroString(hour);
+    t_min.value = getZeroString(min);
+    t_hour.value = getZeroString(sec); //0으로 초기화 한 시,분,초 타이머에 입력
+}
+
+
+
+window.addEventListener("load", function(){
+    init();
+});
+
+</script>
+</head>
+<body>
+    <div id="wrapper">
+
+        <input id="t_hour" type="text"><span> 시 </span>
+        <input id="t_min" type="text"><span> 분 </span>
+        <input id="t_sec" type="text"><span> 초 </span>
+        <p>
+        <button id="bt" onclick="start()">start</button>
+        <button id="bt" onclick="stop()">pause</button>
+        <button id="bt" onclick="reset()">reset</button>
+    </div>
+</body>
+</html>

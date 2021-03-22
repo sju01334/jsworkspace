@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<style>
+#wrapper{
+    width: 1000px;
+    height: 300px;
+    border: 1px solid red;
+    background-color: royalblue;
+    margin: auto;
+    text-align: center;
+}
+#wrapper input{
+    width: 250px;
+    height: 180px;
+    text-align: center;
+    font-size: 150px;
+}
+</style>
+<script>
+    var timeValue=0;
+    var flag=true;
+    function auto(){
+        x=setInterval("countDown()", 1000);
+    }
+    function countDown(){
+        var a_hour= parseInt(document.getElementById("a_hour").value);
+        var a_min= parseInt(document.getElementById("a_min").value);
+        var a_sec= parseInt(document.getElementById("a_sec").value);
+        document.getElementById("a_hour").disabled=true;
+        document.getElementById("a_min").disabled=true;
+        document.getElementById("a_sec").disabled=true;
+        timeValue=a_sec+(60*a_min)+(60*60*a_hour);
+        timeValue--;
+        if(timeValue>0){
+            document.getElementById("a_hour").value=parseInt(timeValue/(60*60));
+            document.getElementById("a_min").value=parseInt(timeValue%(60*60)/60);
+            document.getElementById("a_sec").value=parseInt(timeValue%60);
+            if(timeValue<=10){
+               var wrapper= document.getElementById("wrapper");
+                (flag)? wrapper.style.backgroundColor="red":wrapper.style.backgroundColor="yellow";
+                flag=!flag;
+            }
+        }else if(timeValue<=0){
+            
+            document.getElementById("a_hour").value=0;
+            document.getElementById("a_min").value=0;
+            document.getElementById("a_sec").value=0;
+            clearInterval(x);
+            document.getElementById("mainButton").disabled=false;
+            document.getElementById("a_hour").disabled=false;
+            document.getElementById("a_min").disabled=false;
+            document.getElementById("a_sec").disabled=false;
+            new Audio('sound/alarm.mp3').play();
+            document.getElementById("wrapper").style.backgroundColor="blue";
+        }
+    }
+</script>
+</head>
+<body>
+    <div id="wrapper">
+        <input type="text" id="a_hour" value="00">시
+        <input type="text" id="a_min" value="00">분
+        <input type="text" id="a_sec" value="00">초
+        <p>
+        <button id="mainButton" onClick="auto(); this.disabled=true;">카운트카운트</button>
+    </div>
+</body>
+</html>

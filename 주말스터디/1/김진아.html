@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Countdown</title>
+<style>
+#wrapper{
+    margin: auto;
+    width: 600px;
+    border: 1px solid black;
+    background-color: thistle;
+    text-align: center;
+    position: relative;
+}
+#wrapper input{
+    font-size: 100px;
+    width: 150px;
+    text-align: center;
+}
+</style>
+<script>
+// [input에 들어갈 시,분,초]
+var h;
+var m;
+var s;
+
+// [시작 버튼]
+var timer;
+//[setInterval 여러번 눌렀을 때 빨라짐을 방지]
+var interval=0;
+
+function init(){ //-------------------------------------------값 초기화
+    h=document.getElementById("t_hour");
+    m=document.getElementById("t_min");
+    s=document.getElementById("t_sec");
+
+    h.value=0;
+    m.value=0;
+    s.value=0;
+}
+// [카운트다운 세부]
+function countDown(){ 
+    if(parseInt(s.value)==0){
+        if(m.value>0){
+            s.value=60;
+            m.value=parseInt(m.value)-1; //----------------- 예) 2분이면 1:59로 바뀜
+        }
+    }
+    if(parseInt(m.value) == 0){
+        if(parseInt(h.value) > 0){
+            m.value=59;
+            s.value=60;
+            h.value=parseInt(h.value) -1;
+        } 
+    } 
+    if(parseInt(s.value)==0 && parseInt(m.value)==0 && parseInt(h.value)==0){
+        pause();
+        alert("카운트 다운 종료");
+    }
+    s.value=parseInt(s.value)-1;  //-----------------------초는 int value값 -1
+}
+//[사용자 입력값 수기로 받을 때]
+// obj.value는 input text 전체를 지칭
+function changed_sec_field(obj){
+    if(obj.value>=60){ //----------------------------------60초 이상 작성 시 자동계산.
+        m.value=parseInt(m.value) + parseInt(obj.value / 60);
+        obj.value=obj.value%60;
+    }
+}
+function changed_min_field(obj){
+    if(obj.value>=60){ //----------------------------------60초 이상 작성 시 자동계산.
+        h.value=parseInt(h.value)+parseInt(obj.value/60);
+        obj.value=obj.value%60;
+    }
+}
+//[자동 카운트 다운]
+function auto(check){  //------------------------------------------인터벌 충첩방지
+    interval = interval + check;  
+    if(interval == 1){
+        timer = setInterval(function(){
+        countDown();
+        }, 1000)
+    }
+    else{    //----------------첫번째로 누른 것이 아니라면 기존인터벌 삭제 후 재실행.(즉, 1회만 가동되게끔 조치)
+        clearInterval(timer);
+        timer = setInterval(function(){
+        countDown();
+        }, 1000)
+    }
+}
+// [멈춤]
+function pause(){ 
+    clearInterval(timer);
+}
+window.addEventListener("load",function(){ //-----------------시작 시 리셋부터
+    init();
+});
+</script>
+</head>
+
+<body>
+<div id="wrapper">
+    <input type="text" id="t_hour">시
+    <!-- onChange 이벤트는 텍스트박스 안의 값이 변했음을 체크하는 이벤트
+    (this)는 텍스트박스 자체를 지칭 -->
+    <input type="text" id="t_min" onchange="changed_min_field(this)">분    
+    <input type="text" id="t_sec" onchange="changed_sec_field(this)">초
+    </p>  
+    <button onclick="auto(1)">start</button>   
+    <button onclick="pause()">Pause</button> 
+</div>
+</body>
+</html>

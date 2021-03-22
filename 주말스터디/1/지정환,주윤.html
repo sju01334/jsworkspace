@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #wrapper{
+            margin:auto;
+            width:600px;
+            height:300px;
+            border:1px solid white;
+            position:relative;
+        }
+        #wrapper input{
+            font-size:120px;
+            width:150px;
+            text-align:right;/*우측정렬*/
+            border: 5px solid black;
+        }
+      
+        #put{
+            position:absolute;
+            top:50px;
+            left:25px;
+            margin:auto;
+        }
+        #but{
+            position: absolute;
+            top:170px;
+            left:130px;
+            margin:auto;
+        }
+        #but button{
+            border:gray;
+            font-size:25px;
+        }
+     
+    </style>
+    <script>
+        var t_min,t_sec;
+        var interval;
+        var sec=0;//초를 담을 전역변수(숫자이므로 초기화 하자)
+        var min=0;//분을 담을 전역변수
+        var hour=0;
+        //프로그램 가동과 동시에 초기화시킬 작업이 있다면 init()에서!
+        
+        //0에 대한 처리를 해주는 함수
+        function getZeroString(n){
+            //이 함수를 호출하는 자가 n에 숫자를 넘기되,
+            //10보다 작으면 앞에 0문자를 추가하고 아니면 숫자만 반환
+            var result;
+            if(n<10){//10보다 작니?
+                result="0"+n;
+            }else if(n==60){
+                result="0"+"0";
+            }
+            else{
+                result=n;
+            }
+            return result;
+        }
+        
+        function init(){
+            t_hour=document.getElementById("t_hour");
+            t_min=document.getElementById("t_min");
+            t_sec=document.getElementById("t_sec");
+            
+            //분과 초를 0으로 초기화
+            t_hour.value="0"+"0";
+            t_min.value="0"+"0";
+            t_sec.value="0"+"0";
+        }
+        //초를 증가시키자
+        function countDown(){
+          if(t_hour.value>0&&t_min.value==0&&t_sec.value==0){
+              t_hour.value--;
+              t_hour.value=getZeroString(t_hour.value);
+              t_min.value=59;
+              t_sec.value=59;    
+          }   
+           else if(t_min.value!=0&&t_sec.value>0){
+                t_sec.value--;
+                t_sec.value=getZeroString(t_sec.value);
+            }
+           else if(t_min.value!=0&&t_sec.value==0){
+                t_sec.value=59;
+                t_min.value--;
+                t_min.value=getZeroString(t_min.value);
+                }
+            else if(t_min.value==0&&t_sec.value>0){
+                    t_sec.value--;
+                    t_sec.value=getZeroString(t_sec.value);
+                }
+            else if(t_hour.value==0&&t_min.value==0&&t_sec.value==0){
+                alert("alarm");
+                clearTimer();
+            }
+            
+        }
+        
+        window.addEventListener("load",function(){
+            init();
+        });
+        function setTimer(){
+            clearInterval(interval);
+            interval=setInterval(countDown,300); 
+        }
+        function clearTimer(){
+            clearInterval(interval);
+        }
+        function reset(){
+            clearTimer();
+            sec=0;
+            min=0;
+            hour=0;
+            t_hour.value="0"+"0";
+            t_min.value="0"+"0";
+            t_sec.value="0"+"0";
+        }
+    </script>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="put">
+    <input type="text" id="t_hour">시
+    <input type="text" id="t_min">분
+    <input type="text" id="t_sec">초
+        <div id="but"> 
+    <button onClick="setTimer()" >start</button>
+    <button onClick="countDown()" >manual</button>
+    <button onClick="clearTimer()">pause</button>
+    <button onClick="reset()">reset</button>
+        </div>
+        </div>
+    </div>
+    
+</body>
+</html>

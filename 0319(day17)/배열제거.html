@@ -1,0 +1,26 @@
+<script>
+
+var fruit=["사과", "오렌지","포도","파인애플"];
+
+//splice() 함수를 이용하면 배열의 요소를 제거할 수 있다.
+//splice(index, how may?);
+fruit.splice(2,1);
+console.log(fruit)
+
+
+
+//배열의 길이를 변수로 받아서 전부제거
+var n=fruit.length
+
+ for(var i=0;i<n;i++){
+     fruit.splice(0,1);
+ }
+
+
+
+//indexOf를 이용하여 index번호를 구한 뒤 제거
+var index=fruit.indexOf("graph");
+
+fruit.splice(index, 1);
+
+</script>
