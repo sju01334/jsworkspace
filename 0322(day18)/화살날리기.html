@@ -54,12 +54,13 @@ function auto(){
 window.addEventListener("load",function(){
     //원하는만큼 거푸집으로 쇳물 붓기
     for(var i=0;i<100;i++){
-        arrow[i]=new Arrow(i*10, colorArray[getRandom(colorArray.length)], getRandom(20)+1,  textArray[ getRandom(textArray.length)] ); 
+        arrow[i]=new Arrow(i*10, colorArray[getRandom(colorArray.length)], getRandom(20)+1
+        ,  textArray[ getRandom(textArray.length)] ); 
         //constructor()생성자 함수의 매개변수에 y값 전달
         arrow[i].init();   
     }
 
-    setInterval("auto()",300);
+    setInterval("auto()",100);
 });
 </script>
 </head>

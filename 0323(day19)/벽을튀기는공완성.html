@@ -6,8 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 <script src="../js/Ball.js"></script>
+<script src="../js/lib.js"></script>
 <script>
 var wrapper;
+//공이 랜덤하게 나올 수 있도록, 배열로 선언해 주자
+var ballArray=["ball1.png","ball2.png","ball3.png","ball4.png","ball5.png","ball6.png",
+"ball7.png","ball8.png","ball9.png","ball10.png","ball11.png"];
+var balls=[];//볼 여러개를 기리킬 수 있는 전역배열
+
 function init(){
     createWall();
 }
@@ -22,9 +28,14 @@ function createWall(){
     document.body.appendChild(wrapper)
 }
 function createBall(){
-    var ball=new Ball(wrapper); //생성되는 공은 wrapper에 부착됨
+    var velX=getRandom(10)+1;
+    var velY=getRandom(10)+1;
 
-
+    //생성되는 공은 wrapper에 부착됨
+    var ball=new Ball(wrapper
+    , "../images/balls/"+ballArray[getRandom(ballArray.length)]
+    , 35, 35, velX, velY); 
+    balls.push(ball); //볼을 담아놓을 배열에 방금 태어난 볼을 추가
 }
 
 //키보드의 스페이스바를 누르면 볼을 생성해보자
@@ -33,10 +44,16 @@ function space(){
     if(event.keyCode==32){//space bar의 아스키코드
         createBall();
     }
-
+}
+function gameLoop(){
+    for(var i=0;i<balls.length;i++){
+        //배열에 들어있는 공들을 하나씩 끄집어내자
+        balls[i].move();
+    }
 }
 window.addEventListener("load",function(){
     init();
+    setInterval("gameLoop()",20);
 });
 </script>
 </head>
