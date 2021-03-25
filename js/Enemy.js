@@ -28,6 +28,10 @@ class Enemy{
     tick(){
         this.x+=this.velX;
         this.y+=this.velY;
+
+        if(this.x<0){
+            removeObject(this.container, this.img, enemyArray, enemyArray.indexOf(this));
+        }
     }
     render(){
         this.img.style.left=this.x+"px";

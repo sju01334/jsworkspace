@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>모자이크 게임</title>
+<script src="../js/Rect.js"></script>
+<script src="../js/lib.js"></script>
+<script>
+var container;
+var cellSize=100; //셀 하나당 너비, 높이가 같은 정사각형
+var cols=5; //호수 측 dolumn 갯수
+var rows=3; // 층수 측 record 갯수
+var a=0; //층수
+var i=0; //호수
+var count=0; //setInterval이 언제까지 수행할 지 그 범위를 알아야 멈추므로
+
+function init(){
+    container=document.createElement("div");
+    container.style.width=cellSize*cols+"px";
+    container.style.height=cellSize*rows+"px";
+    container.style.margin="auto";
+    container.style.backgroundImage="url(../images/travel2/1.jpg";
+    container.style.backgroundSize=(cellSize*cols)+"px "+(cellSize*rows)+"px";
+    // container.style.backgroundColor="yellow";
+    container.style.position="relative"
+    
+    //화면에 부착
+    document.body.appendChild(container);
+    
+}
+//사각형 셀 생성하기
+function createRect(){
+    // for(var a=0;a<rows;a++){//층수
+    //     for(var i=0;i<cols;i++){//호수
+            var rect=new Rect(container, cellSize, cellSize, i*cellSize, a*cellSize, rgbRandom());
+            i++;
+            if(i%cols==0){
+                a++; //층수 증가
+                i=0; //i 리셋
+            }
+    //     }
+    // }
+}
+//반복문은 너무빠르므로, 원하는 시간을 지정하여 반복수행을 대신해본다.
+function auto(){
+    if(count<(cols*rows)){
+        console.log("현재, 카운트 값은",count);
+        createRect();
+        count++;
+    }
+}
+
+
+
+window.addEventListener("load", function(){
+    init();
+    setInterval("auto()", 200);
+})
+</script>
+</head>
+<body>
+    
+</body>
+</html>

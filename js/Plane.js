@@ -31,7 +31,9 @@ class Plane{
         this.x+=this.velX;
         this.y+=this.velY;
         // console.log("this.x=", this.x);
+        // console.log("this.y=", this.y);
 
+        //화면 밖으로 주인공이 나가지 않게 하기
         if(this.x<=0){
             this.x=0;
         }
@@ -39,6 +41,50 @@ class Plane{
             // console.log("경계에 도착");
             this.x=screen.width-this.width;
         }
+
+        if(this.y<=0){
+            this.y=0;
+        }
+        if(this.y>= 600-this.height){
+            this.y= 600-this.height;
+        }
+
+        //나와 적군들과 충돌체크, 나의 hp 죽고 적군 죽고
+        for(var i=0;i<enemyArray.length;i++){
+            if(hitTest(this.img , enemyArray[i].img)){ 
+                removeObject(this.container, enemyArray[i].img,  enemyArray, i);
+                removeObject(info, hpArray[hpArray.length-1].img, hpArray ,hpArray.length-1);//나의 hp제거 
+                //주인공의 에너지가 모두 소진되었는지 hp배열의 길이가 0이면
+                if(hpArray.length==0){
+                    var div=document.createElement("div");
+                    div.style.fontSize=150+"px";
+                    div.style.textAlign="center";
+                    div.style.color="#FFF";
+                    div.style.fontWeight="bold";
+                    div.style.height=600+"px"
+                    div.innerHTML="GAME OVER <br><a href=\"javascript:location.reload();\">Retry</a>";
+                    this.container.appendChild(div)//생성된 div를 화면에 부착
+                }
+            }
+        }
+
+        /*
+        candy1.png) 무기를 미사일로 전환
+        candy2.png) 또다른 무기로 미사일로 전환 missile2.png
+        candy3.png) hp추가
+        candy4.png) 주인공의 속도 업그레이드
+        */
+        //나와 아이템 충돌검사(아이템 취득)
+        for(var i=0;i<itemArray.length;i++){
+            if(hitTest(this.img, itemArray[i].img)){
+                removeObject(this.container, itemArray[i].img, itemArray, i)
+                weaponIndex=1;break;
+
+                // switch(i){
+                // }
+            }
+        }
+
     }
     //변경된 값을 화면에 보여주기 위한 그래픽 처리(게임분야, 그래픽 분야에서는 랜더링)
     render(){
