@@ -39,12 +39,13 @@ var enemyArray=[];
 var enemyImg=["e1.png","e2.png","e3.png","e4.png"]; //적군 여럿을 가리키기 위한 배열 전역변수
 var hpArray=new Array();
 var itemArray=[];
-var itemImg=["candy1.png","candy4.png", "candy3.png","speed.png"]
+var itemImg=["bullet.png","bomb.png", "hp.png","speed.png"]
 var count=0;
 var bulletImg=["ball6.png","ball7.png"];
 var weaponIndex=0;
 var roleArray=[];
-
+var loopFlag=true;
+var n=2;
 
 
 function init(){
@@ -53,6 +54,7 @@ function init(){
     info=document.getElementById("info");
     //게임가동과 동시에 주인공 등장
     createHero();
+
     //피 생성
     createHp();
 
@@ -91,15 +93,17 @@ function pressDown(){
     // 4가지 조건으로 키보드 제어
     switch(key){
         case 39 :
-        plane.velX=5;break;
+        plane.velX=n;break;
         case 37 :
-        plane.velX=-5;break;
+        plane.velX=-n;break;
         case 40 :
-        plane.velY=5;break;
+        plane.velY=n;break;
         case 38 :
-        plane.velY=-5;break;
+        plane.velY=-n;break;
         case 32:
             fire(); break;
+        case 27: 
+            loopFlag=!loopFlag; break;
     }
     plane.render(); //렌더링
 
@@ -107,7 +111,8 @@ function pressDown(){
 //총알 등장
 function fire(){
     // constructor(container, src, width, height, x, y, velX, velY)
-    bullet=new Bullet(wrapper, "../images/shooting/"+bulletImg[weaponIndex], 30, 15, plane.x+(plane.width/2), plane.y+(plane.height/2), 10, 0);
+    bullet=new Bullet(wrapper, "../images/shooting/"+bulletImg[weaponIndex]
+    , 30, 15, plane.x+(plane.width/2), plane.y+(plane.height/2), 10, 0);
     bulletArray.push(bullet); //총알 배열에 방금 태어난 총알 인스턴스 추가하기
 }
 //주인공 등장
@@ -120,7 +125,7 @@ function createHero(){
 function createHp(){
     // constructor(container, src, width, height, x, y)
     for(var i=0;i<3;i++){
-        var hp=new Hp(info,"../images/shooting/heart.png", 20, 20, i*33, 0);
+        var hp=new Hp(info,"../images/shooting/heart.png", 20, 20, i*23, 0);
         hpArray.push(hp);
     }
 }
@@ -130,7 +135,7 @@ function createEnemy(){
     // constructor(container, src, width, height, x, y, velX, velY)
     for(var i=0;i<enemyImg.length;i++){
         enemy=new Enemy(wrapper,"../images/shooting/"+enemyImg[getRandom(enemyImg.length)]
-        , 80,60,screen.width,50+(i*110),-(getRandom(5)+2),0);
+        , 80,60,screen.width,50+(i*150),-(getRandom(5)+2),0);
         enemyArray.push(enemy);
     }
 }
@@ -147,8 +152,8 @@ function createItemRole(){
 function  createItem(){
     // constructor(itemRole, container, width, height, x, y, velX, velY)
     
-    var n=getRandom(itemArray.length);
-    console.log("몇번째 아이템?", n);
+    var n=getRandom(itemImg.length);
+    // console.log("몇번째 아이템?", n);
     var item=new Item(roleArray[n], wrapper , 30, 30, screen.width+getRandom(100), 50+getRandom(500), -2, 0)
         itemArray.push(item);
     
@@ -163,39 +168,80 @@ function bgEffect(){
     bgX--;
     wrapper.style.backgroundPosition=bgX+"px 0px"
 }
+//무기교체
+function changeWeapon(){
+    // console.log("무기교체")
+    weaponIndex=1;
+}
+//적군소멸
+function clearEnemy(){
+    // console.log("적군소멸")
+    var len=enemyArray.length;
+    for(var i=0;i<len;i++){
+        wrapper.removeChild(enemyArray[0].img);
+        enemyArray.splice(0,1);
+    }
+}
+//hp추가
+function increaseHp(){
+    // console.log("피 생성")
+    if(hpArray.length<4){
+        var hp=new Hp(info,"../images/shooting/heart.png", 20, 20, hpArray.length*23, 0);
+        hpArray.push(hp)
+    }
+}
+//스피드 증가
+function speedUp(){
+    console.log("스피드 증가")
+    n++;
+    if(n>=6){
+        n=6;
+    }
+}
+
+
+
+
+
 
 //무한루프
 function gameLoop(){
-    // console.log("심장 뛰어요");
-    bgEffect();
+    if(loopFlag){
 
-    plane.tick();//물리량 변화
-    plane.render();//그래픽 처리
-
-    for(var i=0;i<bulletArray.length;i++){
-        bulletArray[i].render();
-        bulletArray[i].tick(); //배열 삭제는 여기서 수행되기 때문에 그래픽 먼저 삭제하고 배열을 삭제할 것!
-    }
-
-    for(var i=0;i<enemyArray.length;i++){
-        enemyArray[i].render();
-        enemyArray[i].tick(); //배열 삭제는 여기서 수행되기 때문에 그래픽 먼저 삭제하고 배열을 삭제할 것!
-    }
-
-    for(var i=0;i<itemArray.length;i++){
-        itemArray[i].render();
-        itemArray[i].tick(); //배열 삭제는 여기서 수행되기 때문에 그래픽 먼저 삭제하고 배열을 삭제할 것!
-    }
-
-    //아이템이 등장할 시점을 카운터를 세서, 원하는 시간을 interval로 조정
-    if(count%600==0){
-        createItem();
-        createEnemy();
-    }
+        // console.log("심장 뛰어요");
+        bgEffect();
     
-    log();
-
-    count++
+        plane.tick();//물리량 변화
+        plane.render();//그래픽 처리
+    
+        for(var i=0;i<bulletArray.length;i++){
+            bulletArray[i].render();
+            bulletArray[i].tick(); //배열 삭제는 여기서 수행되기 때문에 그래픽 먼저 삭제하고 배열을 삭제할 것!
+        }
+    
+        for(var i=0;i<enemyArray.length;i++){
+            enemyArray[i].render();
+            enemyArray[i].tick(); //배열 삭제는 여기서 수행되기 때문에 그래픽 먼저 삭제하고 배열을 삭제할 것!
+        }
+    
+        for(var i=0;i<itemArray.length;i++){
+            itemArray[i].render();
+            itemArray[i].tick(); //배열 삭제는 여기서 수행되기 때문에 그래픽 먼저 삭제하고 배열을 삭제할 것!
+        }
+    
+        //아이템이 등장할 시점을 카운터를 세서, 원하는 시간을 interval로 조정
+        if(count%600==0){
+            createItem();
+        }
+        //적군 등장 시점
+        if(count%300==0){
+            createEnemy();
+        }
+        
+        log();
+    
+        count++
+    }
 }
 
 function log(){
@@ -206,6 +252,8 @@ function log(){
     // info.innerText=str;
     document.getElementById("status").innerText=str;
 }
+
+
 
 window.addEventListener("load",function(){
     init();

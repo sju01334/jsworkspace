@@ -40,7 +40,7 @@ class Item{
 
         //내가 화면의 음수값을 가질때 즉 좌측 한계점을 지나면, 제거
         if(this.x<0){
-            //removeObject(this.container, this.img, enemyArray, enemyArray.indexOf(this));
+            removeObject(this.container, this.img, itemArray, itemArray.indexOf(this));
         }
    }
     render(){

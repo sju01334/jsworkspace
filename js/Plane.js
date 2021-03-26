@@ -53,7 +53,9 @@ class Plane{
         for(var i=0;i<enemyArray.length;i++){
             if(hitTest(this.img , enemyArray[i].img)){ 
                 removeObject(this.container, enemyArray[i].img,  enemyArray, i);
-                removeObject(info, hpArray[hpArray.length-1].img, hpArray ,hpArray.length-1);//나의 hp제거 
+                if(hpArray.length>0){
+                    removeObject(info, hpArray[hpArray.length-1].img, hpArray ,hpArray.length-1);//나의 hp제거 
+                }
                 //주인공의 에너지가 모두 소진되었는지 hp배열의 길이가 0이면
                 if(hpArray.length==0){
                     var div=document.createElement("div");
@@ -69,19 +71,28 @@ class Plane{
         }
 
         /*
-        candy1.png) 무기를 미사일로 전환
-        candy2.png) 또다른 무기로 미사일로 전환 missile2.png
-        candy3.png) hp추가
-        candy4.png) 주인공의 속도 업그레이드
+        role 0) 무기를 미사일로 전환
+        role 1) 또다른 무기로 미사일로 전환 missile2.png
+        role 2) hp추가
+        role 3) 주인공의 속도 업그레이드
         */
         //나와 아이템 충돌검사(아이템 취득)
         for(var i=0;i<itemArray.length;i++){
             if(hitTest(this.img, itemArray[i].img)){
-                removeObject(this.container, itemArray[i].img, itemArray, i)
-                weaponIndex=1;break;
+                var itemRole=itemArray[i].itemRole;//주인공과 충동할 아이템정보
 
-                // switch(i){
-                // }
+                removeObject(this.container, itemArray[i].img, itemArray, i)
+                //조건을은 롤을 통해 처리 가능
+                switch(itemRole.role){
+                    case 0: 
+                    changeWeapon() ;break;
+                    case 1: 
+                    clearEnemy() ;break;
+                    case 2: 
+                    increaseHp() ;break;
+                    case 3: 
+                    speedUp();break;
+                }
             }
         }
 
