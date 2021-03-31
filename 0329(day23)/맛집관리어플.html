@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+#wrapper{
+    width: 1200px;
+    height: 700px;
+    background: yellow;
+    margin: auto;
+    overflow: hidden;
+}
+#side{
+    width: 200px;
+    height: 100%;
+    background: lightgoldenrodyellow;
+    float: left;
+}
+#content{
+    width: 1000px;
+    height: 100%;
+    float: left;
+}
+#side *{
+    width: 95%;
+}
+#side input[type="text"]{
+    height:20px;
+}
+#side textarea{
+    height:100px;
+}
+</style>
+<script>
+var googleMap
+var content;
+var myCenter; //현배 맵의 중심점
+var lati,lngi; //위도와 경도를 받는 텍스트 필드
+var imgSelect; 
+//등록시 선택할 업체의 대표 이미지, 상호면
+//이차원 배열처럼 볼 수 있다.
+var storeList={
+    "stores":[
+        {
+            "name":"더 후라이팬",
+            "image": "../images/store/fripan.jpg"
+        },
+        {
+            "name":"이태리부대찌게",
+            "image": "../images/store/italy.jpg"
+        },
+        {
+            "name":"밀빵떡볶이",
+            "image": "../images/store/ricecake.jpg"
+        },
+        {
+            "name":"삼곱식당",
+            "image": "../images/store/samgob.jpg"
+        },
+        {
+            "name":"우리집",
+            "image": "../images/store/woori.jpg"
+        }
+    ]
+};
+
+
+
+
+function init(){
+    // alert("구글맵이 준비되었어요")
+    content=document.getElementById("content");
+    lati=document.getElementById("lati");
+    lngi=document.getElementById("lngi");
+    imgSelect=document.getElementById("imgSelect")
+
+    // 맵의 중심점에 대한 좌표 및 카메라 줌 확대비율을 설정하자
+    myCenter=new google.maps.LatLng(37.50028678504946, 127.03671113549815);
+
+    var mapProp={
+        center: myCenter,
+        zoom: 18
+    };
+    // 설정 정보를 구글맵 객체에 적용(어디에 출력?, 어떤설정)
+    googleMap = new google.maps.Map(content,mapProp);
+
+    //마커 생성하기
+    var marker = new google.maps.Marker({position: myCenter});
+    marker.setMap(googleMap); //생성된 마커를 적용할 맵 지정
+    createImg();
+
+}
+//선택할 이미지 옵션 목록 생성
+function createImg(){
+    //집함의 크기만큼
+    for(var store of storeList.stores){
+        // var ~ in ~ : 인덱스를 뽑아낸다
+        // var ~ of ~ : 요소를 뽑아낸다.
+        // console.log(path);
+        var op=document.createElement("option");
+        op.text=store.name;
+        op.value=store.image;
+        imgSelect.add(op); //생성된 옵션을 select박스에 붙이기
+    }
+}
+
+
+
+
+
+function apply(){
+    //위도와 경도를 변경하여, 마커를 찍어보자
+    myCenter=new google.maps.LatLng(lati.value, lngi.value);
+    var marker = new google.maps.Marker({position: myCenter});
+    marker.setMap(googleMap);
+
+    //카메라의 중심점 이동
+    googleMap.setCenter(marker.getPosition());
+
+    //마커를 클릭하면
+    google.maps.event.addListener(marker,'click',function() {
+        //인포 윈도우 띄우기
+        var tag="<h3>"+document.getElementById("store_name").value+"</h3>";
+        tag+="<img src=\""+imgSelect.value+"\" width=\"60px\"><p>";
+        tag+=document.getElementById("detail").value;
+        var infowindow = new google.maps.InfoWindow({
+            content:tag
+        });
+    
+        infowindow.open(googleMap,marker);
+    });
+
+}
+
+
+
+
+
+//선택한 상점의 이미지를 바꾸기
+function preview(){
+    document.getElementById("pic").src=imgSelect.value
+}
+
+function registByJson(){
+    //체크박스가 체크된 상태라면, json  입력 textarea보여주고, 아니면 안보이게
+    var vision=(document.getElementById("ch").checked)? "block":"none";
+    document.getElementById("dump").style.display=vision;
+}
+
+
+
+
+
+// 제이슨을 이용한 일괄등록
+function applyAll(){
+    // alert("json 으로 등록할까");
+    //textarea에 작성된 문자열내의 json 표기를 실제 json 객체화 시켜보자
+    //그러기 위해서는 문자열을 제거하고, json 을 해석을 하자
+    var json=JSON.parse(document.getElementById("dump").value); //파싱할 대상 문자열이 옴
+
+    // console.log(json);
+
+    var markerArray=[]; //여러개의 마커를 반복문 돌떄, 보관할 용도
+
+    //마커 만들기
+    for(var i=0;i<json.storeList.length;i++){
+        var jumpo=json.storeList[i]; //점포 하나를 접근
+
+        myCenter=new google.maps.LatLng(jumpo.latLng.lat, jumpo.latLng.lng);
+        //마커 생성
+        var marker = new google.maps.Marker({
+            position: myCenter,
+            index:i
+        });
+        marker.setMap(googleMap);
+        markerArray.push(marker); // 배열에 마커를 담아준다.
+
+        //위치를 역삼으로 이동
+        googleMap.setCenter(marker.getPosition());
+    
+
+        google.maps.event.addListener(marker,'click',function() {
+            //인포 윈도우 띄우기
+            // 여기서의 this는 이 이벤트를 일으킨 주체(marker)
+            console.log("당신이 클릭한 마커의 index",this.index);
+
+            var tag="<h3>"+json.storeList[this.index].name+"</h3>";
+            tag+="<img src=\""+json.storeList[this.index].image+"\" width=\"60px\"><p>";
+            tag+=json.storeList[this.index].review;
+
+            var infowindow = new google.maps.InfoWindow({
+                content:tag
+            });
+        
+            infowindow.open(googleMap,markerArray[this.index]);
+        });
+    }
+
+}
+
+
+
+
+
+</script>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="side">
+            <input type="text" placeholder="상호입력" id="store_name">
+            <textarea id="detail"></textarea>
+            <!-- 기존에 선택한 옵션과는 다른 옵션을 선택했을때, 즉 선택값이 바뀌었을때 -->
+            <select id="imgSelect" onchange="preview()">
+                <option value="">이미지 선택</option>
+            </select>
+            <img src="../images/kitty.jpg" width="195px" id="pic">
+
+            일괄 등록:<input type="checkbox" id="ch" onclick="registByJson()">
+
+            <textarea placeholder="json 데이터 입력" id="dump" style="display:none"></textarea>
+            <input type="text" value="37.57493611044894" id="lati">
+            <input type="text" value="126.97791539856028" id="lngi">
+            <button onclick="(document.getElementById('ch').checked)? applyAll():apply()">등록</button>
+        </div>
+        <div id="content"></div>
+    </div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjhpFifuvNK9AdbYUW8n2MR0KnNo-6PBo&callback=init"></script>
+                                                                                                                                        <!-- 구글맵이 콜백되었을때 init을 바로 호출 -->
+</body>
+</html>

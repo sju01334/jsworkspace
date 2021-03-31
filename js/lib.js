@@ -4,6 +4,8 @@
 ---------------------------------------------------------------*/
 
 
+
+
 /* -----------------------------------------------------
 1. 매개변수 n : 0~n미만까지의 랜덤한 수를 반환하는 함수
 ------------------------------------------------------*/
@@ -39,48 +41,21 @@ function removeObject(container, child, arr, index){
 }
 
 
-
-
-//두 물체간, 충돌여부를 판단해주는 함수
-function collisionCheck(me ,  you){
-    var result=false; //이함수가 호출자가 최종적으로 얻어갈 논리값(true: 충돌, false: )
-
-    //왼쪽 상단만 체크 (내일 나머지 3개면에 대해서도 마무리..)
-    var x1=parseInt(me.style.left); //
-    var y1=parseInt(me.style.top); //
-    var w1=parseInt(me.style.width); //
-    var h1=parseInt(me.style.height); //
-
-    //타겟이 되는 사각형에 대한 정보
-    var x2=parseInt(you.style.left); //
-    var y2=parseInt(you.style.top); //
-    var w2=parseInt(you.style.width); //
-    var h2=parseInt(you.style.height); //
-    
-
-    var check1=((x1+w1) >=x2 &&  (y1+h1) >= y2) && ( x1 <= (x2+w2) ); //2사분면에 대한 충돌판단 그리고, 상대방의 x축의
-    //너비를 더한 좌표보다는 이하여야 함 
-    var check2=false;
-    var check3=false;
-    var check4=false;
-
-    result=check1 || check2 || check3 || check4;
-    
-    return result;
-    
-}
+/* -----------------------------------------------------
+4. 충돌검사
+------------------------------------------------------*/
 
 function hitTest(me, target) {
     //두물체간 충돌 여부 판단 
-    me_x= parseInt(me.style.left);
-    me_y= parseInt(me.style.top);
-    me_width=parseInt(me.style.width);
-    me_height=parseInt(me.style.height);
+    var me_x= parseInt(me.style.left);
+    var me_y= parseInt(me.style.top);
+    var me_width=parseInt(me.style.width);
+    var me_height=parseInt(me.style.height);
 
-    target_x= parseInt(target.style.left);
-    target_y= parseInt(target.style.top);
-    target_width=parseInt(target.style.width);
-    target_height=parseInt(target.style.height);
+    var target_x= parseInt(target.style.left);
+    var target_y= parseInt(target.style.top);
+    var target_width=parseInt(target.style.width);
+    var target_height=parseInt(target.style.height);
 
 
     var result1=(me_x >= target_x) && (me_x <= (target_x+target_width));//나의 x좌표위치가 타겟의 x range 내에 있는지 판단 
@@ -90,4 +65,18 @@ function hitTest(me, target) {
     
     return (result1 || result2) && (result3 || result4);
 }
+
+/* -----------------------------------------------------
+5. 자리수 처리
+    한자리수의 경우 앞에 0 붙이기
+------------------------------------------------------*/
+function getZeroString(n){
+    var result=(n>10)? n: "0"+n;
+    return result;
+}
+
+
+
+
+
 

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>벽돌깨기</title>
+<script src="./Block.js"></script>
+<script src="./Ball2.js"></script>
+<script src="./lib.js"></script>
+<script src="./BlockHit.js"></script>
+<script>
+var wrapper;
+var bar;
+var barWidth = 100;
+var barHeight = 30;
+var targetX;
+var targetY;
+var blockArray = [];
+var colorArray = ["red","orange","yellow","green","blue","navy","purple"];
+var blockWidth = 150;
+var blockHeight = 100;
+var ball;
+var ballSize = 20;
+var ballVel = 3;
+var gap = 5;
+
+function init(){
+    createWall();
+    createBlock();
+    createBall();
+    createBar();
+}
+
+function createWall(){
+    wrapper = document.createElement("div");
+    wrapper.style.width = 1000 + "px";
+    wrapper.style.height = 600 + "px";
+    wrapper.style.margin = "auto";
+    wrapper.style.border = 1 + "px solid black";
+    wrapper.style.position = "relative";
+    wrapper.style.overflow = "hidden";
+
+    document.body.appendChild(wrapper);
+
+}
+
+function createBlock(){
+    for(var i=0;i<2;i++){
+        blockArray[i] = [];
+        for(var j=0;j<2;j++){
+            // constructor(container, color, width, height, x, y)
+            blockArray[i][j] = new Block(wrapper, "red", blockWidth, blockHeight, j*blockWidth+((1000-blockWidth*2)/2), i*blockHeight+100);
+        }
+    }
+}
+
+function createBall(){
+    // constructor(container, color, width, height, velX, velY)
+    ball = new Ball(wrapper, "blue", ballSize, ballSize, ballVel, ballVel);
+}
+
+function createBar(){
+    bar = document.createElement("div");
+    bar.style.width = barWidth + "px";
+    bar.style.height = barHeight + "px";
+    bar.style.left = 500 + "px";
+    bar.style.top = 500 + "px";
+    bar.style.position = "absolute";
+    bar.style.backgroundColor = "black";
+    bar.style.border = 1 + "px solid white";
+    bar.style.boxSizing = "border-box";
+
+    wrapper.appendChild(bar);
+}
+
+function getPos(){
+    targetX = event.clientX - barWidth/2;
+}
+
+function gameLoop(){
+    ball.move();
+    ball.tick();
+    ball.touchBlock();
+    ball.touchBar();
+    ball.gameOver();
+    // ball.gameClear();
+
+    bar.style.left = parseFloat(targetX - wrapper.offsetLeft) + "px";
+}
+
+window.addEventListener("load", function(){
+    init();
+    setInterval("gameLoop()",10);
+});
+</script>
+</head>
+<body onmousemove="getPos()">
+</body>
+</html>

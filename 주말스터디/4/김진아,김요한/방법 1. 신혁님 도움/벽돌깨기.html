@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>벽돌깨기js ver</title>
+<style>
+    *{
+        margin: 0px;
+        padding: 0px;
+    }
+    #wrapper{
+        overflow: hidden;
+    }
+
+</style>
+<script src="./벽돌깨기.js"></script>
+<script src="./Ball.js"></script>
+<script src="./lib.js"></script>
+<script>
+var wrapper;
+var wrapper_width=1000;
+var wrapper_height=700;
+// 바
+var bar;
+var bar_width=100;
+var bar_height=10;
+var bar_top=wrapper_height-bar_height-15;
+var bar_left=(wrapper_width/2)-(bar_width/2);
+//공
+var ball;
+// 블럭
+var block;
+var blockArray=[];
+
+var rightPressed = false;
+var leftPressed = false;
+
+var flag=true;
+
+function init(){
+    wrapper = document.getElementById("wrapper");
+    wrapper.style.width=wrapper_width+"px";
+    wrapper.style.height=wrapper_height+"px";
+    wrapper.style.margin="auto";
+    wrapper.style.border=5+"px solid black";
+    wrapper.style.position="relative";
+
+    bar=document.getElementById("bar");
+    bar.style.width=bar_width+"px";
+    bar.style.height=bar_height+"px"
+    bar.style.position="absolute";
+    bar.style.border=5+"px solid black";
+    bar.style.background="black";
+    bar.style.top=bar_top +"px";
+    bar.style.left=bar_left+"px";
+
+    createBlock();
+    createBall();
+
+    document.addEventListener("keydown",function(){
+        pressDown();
+    });
+    document.addEventListener("keyup",function(){
+        pressUp();
+    });     
+}
+// 공
+function createBall(){
+    // constructor(wrapper,wrapper_width,wrapper_height,src,velX,velY)
+    ball = new BounceBall(wrapper,wrapper_width,wrapper_height,"./heart.png",5,-5);
+}
+// 블록 생성
+function createBlock(){
+    var block_l=50;
+    var block_t=50;
+
+    for(var i=0;i<5;i++){
+        for(var j=0;j<5;j++){
+            block = new Block(wrapper,"./block.png",wrapper_width,wrapper_height,block_l,block_t);
+            blockArray.push(block);
+            block_l = block_l + 100;
+        }
+        block_l=50;
+        block_t=block_t +100;
+    }
+
+
+}
+// 바 움직임
+function pressDown(){
+    if(event.keyCode == 37){
+        leftPressed = true;
+        // bar.style.left = parseInt(bar.style.left)-10 + "px";
+    }
+    if(event.keyCode == 39){
+        rightPressed = true;
+        // bar.style.left = parseInt(bar.style.left)+10 + "px";
+    }
+
+}
+function pressUp(){
+    if(event.keyCode == 37){
+        leftPressed = false;
+        // bar.style.left = parseInt(bar.style.left)-10 + "px";
+    }else if(event.keyCode == 39){
+        rightPressed = false;
+        // bar.style.left = parseInt(bar.style.left)+10 + "px";
+    }
+
+}
+function barMove(){
+    if(leftPressed && parseInt(bar.style.left)>0){
+        bar.style.left = parseInt(bar.style.left)-10 + "px";
+    }else if(rightPressed && parseInt(bar.style.left) < (wrapper_width-bar_width-10)){
+        bar.style.left = parseInt(bar.style.left)+10 + "px";
+    }
+}
+
+// 루프
+function gameLoop(){
+    if(flag){
+        barMove();
+        ball.tick();
+        ball.render();
+    } 
+}
+
+window.addEventListener("load",function(){
+    init();
+    setInterval("gameLoop()",20);
+});
+</script>
+</head>
+<body>
+<div id="wrapper">
+    <div id="bar"></div>
+</div>
+</body>
+</html>

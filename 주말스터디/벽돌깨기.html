@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+#wrapper{
+    width: 1000px;
+    height: 500px;
+    /* background: red; */
+    margin: auto;
+    position: relative;
+    overflow: hidden;
+}
+/* #content{
+    width: 550px;
+    height: 100%;
+    box-sizing: border-box;
+    border: 3px solid red;
+    float: left;
+} */
+
+#score{
+    width: 150px;
+    height: 100%;
+    background: lightcoral;
+    /* position: absolute; */
+    float: left;
+}
+</style>
+<script src="./Brickball.js"></script>
+<script src="./Brick.js"></script>
+<script src="../js/lib.js"></script>
+<script>
+var content;
+var brickDiv;
+var brickArray=[];
+var bar;
+var ball;
+var speed=5;
+var st;
+var loopFlag=true;
+
+function init(){
+    content=document.getElementById("content");
+    content.style.width=800+"px";
+    content.style.height=500+"px";
+    content.style.boxSizing="border-box";
+    content.style.border="3px solid red";
+    content.style.float="left";
+
+    //벽돌 div생성
+    brickDiv=document.createElement("div");
+    brickDiv.style.width=300+"px";
+    brickDiv.style.height=200+"px";
+    brickDiv.style.margin="auto";
+    brickDiv.style.backgroundImage="url(../images/kitty.jpg)";
+    brickDiv.style.backgroundSize="300px 200px";
+    // brickDiv.style.backgroundColor="gray";
+    brickDiv.style.position="absolute"
+    brickDiv.style.left=230+"px";
+    brickDiv.style.top=80+"px";
+    
+    //화면에 부착
+    content.appendChild(brickDiv);
+
+    //바 생성
+    createBrickbar();
+
+    //벽돌 생성
+    createBrick();
+
+    //공 등장
+    createBrickBall();
+
+    content.addEventListener("mousemove",function(){
+        bar.style.left=event.clientX-content.offsetLeft+"px";
+        bar.style.top=event.clientY+"px";
+    });
+
+}
+
+//바 생성
+function createBrickbar(){
+    bar=document.createElement("div");
+    bar.style.position="absolute";
+    bar.style.left=50+"px";
+    bar.style.top=50+"px";
+    bar.style.width=50+"px";
+    bar.style.height=50+"px";
+    bar.style.backgroundColor="black";
+
+    content.appendChild(bar);
+}
+
+
+//벽돌 생성
+function createBrick(){
+    // constructor(container, width, height, x, y, bg)
+    for(var a=0;a<2;a++){
+        for(var i=0;i<2;i++){
+            var brick=new Brick(brickDiv, 150, 100, i*150, a*100, rgbRandom());
+            brickArray.push(brick);
+        }
+    }
+}
+
+//공 생성
+function createBrickBall(){
+    // constructor(container, src, width, height, velX, velY)
+    ball=new Brickball(content,"../images/balls/ball1.png", 30,30, 1, 1);
+}
+
+function hitTestAll(me, target, x, y) {
+    //두물체간 충돌 여부 판단 
+    me_x= parseInt(me.style.left);
+    me_y= parseInt(me.style.top);
+    me_width=parseInt(me.style.width);
+    me_height=parseInt(me.style.height);
+
+    target_x= parseInt(target.style.left)+x;
+    target_y= parseInt(target.style.top)+y;
+    target_width=parseInt(target.style.width);
+    target_height=parseInt(target.style.height);
+
+    var result;
+
+    if( (me_x+me_width) >= target_x && (me_x+me_width) < (target_x+target_width) && me_y>=target_y  && (me_y+me_height) <= (target_y+target_height)     ){
+        result=1;
+    }else if(  (me_y+me_height)>=target_y && (me_y+me_height) <(target_y+target_height) && me_x >= target_x && (me_x+me_width)<=(target_x+target_width)       ){
+        result=2;
+    }else if(   me_x <= (target_x+target_width)  && me_x > target_x     && me_y>=target_y  && (me_y+me_height) <= (target_y+target_height)    ){
+        result=3;
+    }else if(    me_y<=  (target_y+target_height) && me_y >target_y  && me_x >= target_x && (me_x+me_width)<=(target_x+target_width)        ){
+        result=4;
+    }  
+    return result;
+}
+
+
+//무한루프
+function gameLoop(){
+    ball.tick();
+    ball.render();
+}
+
+
+window.addEventListener("load",function(){
+    init();
+    st=setInterval("gameLoop()", 10);//fps
+});
+</script>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="content"></div>
+    </div>
+
+</body>
+</html>

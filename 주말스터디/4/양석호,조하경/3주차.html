@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./content.js"></script>
+    <script src="./lib.js"></script>
+    <style>
+        body{margin: 0px;}
+        #wrapper{
+            margin: auto;
+            position: relative;
+            background-color: aqua;
+        }
+        #content{
+            width: 400px;
+            height: 200px;
+            position: absolute;
+            background: url(./bg/hungryHK.jpg);
+            background-size: cover;
+            left: 550px;
+            top: 300px;
+        }
+    </style>
+    <script>
+        var gameInterval;
+        var ball;
+        var content;
+        var bar;
+        var wrapperz;
+        var divArr=[];
+        var color=["red","orange","yellow","green","blue","navy","violet","gray","black","white"];
+
+        function init(){
+            container=document.getElementById("content");
+            wrapperz=document.getElementById("wrapper");
+            wrapperz.style.width=1500+"px";
+            wrapperz.style.height=800+"px";
+            bar=new Bar(wrapperz,10,10)
+            createDiv();
+            createBall();
+        }
+        function createBall(){
+            //(container,x,y,size)    
+            ball = new Ball(wrapperz,1100,450,50+"px");
+        }
+        function createDiv(){
+            //(container,x,y,width,height,color)
+            for(var i=0;i<2;i++){
+                for(var a=0;a<2;a++){
+                    var divBox=new Div(container,i*200,a*100,200,100,color[0]);
+                    divArr.push(divBox);
+                }
+            }
+        }
+        function barMove(){
+            var x=event.clientX-wrapperz.offsetLeft-25;
+            var y=event.clientY-25;
+            bar.bar.style.left=x+"px";
+            bar.bar.style.top=y+"px";
+        }
+        function gameLoop(){
+            //ball 이동
+            ball.render();
+            ball.tick();
+            ball.contect();
+        }
+        window.addEventListener("load",function(){
+            init();
+            gameInterval=setInterval("gameLoop()",10);
+        });
+
+//클리어 확인
+//div1.opersitiy==0 && div2.opersitiy==0 ...
+    </script>
+</head>
+<body>
+    <div id="wrapper" onmousemove="barMove()">
+        <div id="content"></div>
+    </div>
+</body>
+</html>
